@@ -1,0 +1,32 @@
+{
+  "fitbit": {
+    "appType": "clockface",
+    "appDisplayName": "WIMP Moment",
+    "requestedPermissions": [
+      "access_activity",
+      "access_heart_rate",
+      "access_user_profile",
+      "access_location",
+      "access_internet",
+      "run_background",
+      "access_activity"
+    ],
+    "buildTargets": [
+      "higgs",
+      "mira"
+    ],
+    "i18n": {
+      "en": {
+        "name": "WIMP Moment"
+      }
+    },
+    "appUUID": "6b61bc73-e637-4894-9d65-4f1389e21f10"
+  },
+  "dependencies": {
+    "@fitbit/sdk": "~4.0.0",
+    "@fitbit/sdk-cli": "^1.7.0"
+  },
+  "scripts": {
+    "build": "fitbit-build"
+  }
+}

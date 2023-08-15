@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken'),
     crypto = require('crypto');
 const refresh_secret = require('../env.config.js').refresh_secret;
 const fs = require('fs');
-const cert = fs.readFileSync( './security/tls/token-public-key.pem',{encoding:'utf-8'});
+const cert = fs.readFileSync( './security/tls/private.key',{encoding:'utf-8'});
 exports.validJWTNeeded = (req, res, next) => {
     if (req.headers['authorization']) {
         try {
@@ -11,7 +11,7 @@ exports.validJWTNeeded = (req, res, next) => {
                 return res.status(401).send();
             } else {
 
-                var aud = 'urn:' + (req.get('origin') ? req.get('origin') : "yahia.xyz");
+                let aud = 'urn:' + (req.get('origin') ? req.get('origin') : "yahia.xyz");
                 req.jwt = jwt.verify(authorization[1], cert, { issuer: "urn:yahia.xyz", audience: aud, algorithms: ['RS512'] });
                 return next();
             }

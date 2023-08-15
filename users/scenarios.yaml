@@ -1,0 +1,28 @@
+config:
+  processor: "./custom_auth.js"
+  environments:
+    http:
+      target: "http://localhost:3001"
+      extendedMetrics: true
+      phases:
+        - duration: 60
+          arrivalRate: 5
+          rampTo: 10
+          name: Warm up the API
+        - duration: 60
+          arrivalRate: 10
+          rampTo: 50
+          name: Ramp up to peak load
+        - duration: 300
+          arrivalRate: 50
+          name: Sustained peak load
+scenarios:
+  - name: "Get Users"
+    flow:
+      - get:
+          url: "/users"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - contentType: json

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message Flow {
+    string userId = 1;
+    string flowId = 2;
+}
+
+service FlowService {
+    rpc Add (Flow) returns (Flow) {}
+    rpc Get (Id) returns (Flow) {}
+}
+
+message Id {
+    string id = 1;
+}
+
+message Empty {}

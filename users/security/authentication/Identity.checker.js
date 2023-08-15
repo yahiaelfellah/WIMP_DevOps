@@ -24,7 +24,6 @@ exports.hasAuthValidFields = (req, res, next) => {
 };
 
 exports.isPasswordAndUserMatch = (req, res, next) => {
-    
     IdentityModel.findByUserName(req.body.username)
         .then((user)=>{
              if(!user[0]){
@@ -34,7 +33,7 @@ exports.isPasswordAndUserMatch = (req, res, next) => {
                 let salt = passwordFields[0];
                 let hash = crypto.scryptSync(req.body.password,salt,64,{N:16384}).toString("base64");
                 if (hash === passwordFields[1]) {
-                    var now = Math.floor(Date.now() / 1000);
+                    const now = Math.floor(Date.now() / 1000);
                     req.body = {
                         iss: 'urn:yahia.xyz',
                         aud: 'urn:'+(req.get('origin')?req.get('origin'):"yahia.xyz"),

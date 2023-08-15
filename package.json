@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "WINPv2",
   "author": "Yahia el fellah",
   "license": "MIT",
   "private": true,
@@ -14,12 +14,17 @@
   },
   "scripts": {
     "start": "lerna exec --no-bail --parallel -- npm start",
-    "build":"lerna exec --no-bail --parallel -- npm run run:build",
+    "build": "lerna exec --no-bail --parallel -- npm run run:build",
+    "clean":"chmod +x ./clean-project.sh && ./clean-project.sh",
     "kill-ports": "kill-port --port 3000,3001,8000,3006",
-    "run:dev": "npm run kill-ports && lerna run dev --parallel",
-    "run:build":"npm run kill-ports && npm run build "
+    "run:dev": "npm run kill-ports && npm start",
+    "run:build": "npm run kill-ports && npm run build ",
+    "install:test": "lerna exec npm install -g artillery@latest --parallel"
   },
   "devDependencies": {
     "lerna": "^6.6.2"
+  },
+  "dependencies": {
+    "test": "^3.3.0"
   }
 }

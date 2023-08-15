@@ -80,8 +80,7 @@ if __name__ == '__main__':
     # Register signal handler for SIGINT (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
 
-    # Start the temperature loop in a separate thread    edge_thread = threading.Thread(target=temperature_loop)
-    edge_thread.start()
-
+    # Start the temperature loop in a separate thread  edge_thread = threading.Thread(target=temperature_loop)
+    temperature_loop()
     # Start the Flask app
     app.run()

@@ -14,7 +14,6 @@ class Wemo(Resource):
     def get(self):
         devices = pywemo.discover_devices()
         target =  get_wemo_device_by_name(request.args.get('name') or 'Concordia')
-        
         if target is None :     
             return {'error': 'Wemo device not found'}
         for device in devices:
@@ -23,6 +22,17 @@ class Wemo(Resource):
                 break
         else:
             return {'error': 'Wemo device not found'}
+
+        # Check the current state of the WeMo device
+        try:
+            state = wemo.get_state()
+        except pywemo.exceptions.ActionException as e:
+            return {'error': f'Error getting WeMo device status: {str(e)}'}
+
+        return {'status': 'on' if state == 1 else 'off'}   
+
+
+
         action = request.args.get('action')
         if action == 'on':
             wemo.on()

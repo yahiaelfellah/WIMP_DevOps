@@ -1,34 +1,48 @@
 {
-  "name": "flow",
+  "name": "flow_grpc",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "wait-for-mongo": "wait-on mongodb://localhost:27017/test",
-    "jest-test": "jest"
+    "start": "nodemon index.js",
+    "build": "webpack --mode development --config webpack.config.js",
+    "run:build": "yarn build && node ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "axios": "^1.3.4",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.0.3",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.0",
+    "html-loader": "^4.2.0",
+    "mock-aws-s3": "^4.0.2",
+    "nock": "^13.3.2",
+    "node-loader": "^2.0.0",
+    "raw-loader": "^4.0.2",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-middleware": "^6.1.1",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-hot-middleware": "^2.25.4",
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2",
+    "winston": "^3.10.0"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.0",
+    "@grpc/proto-loader": "^0.7.8",
+    "body-parser": "^1.20.2",
+    "mongoose": "^7.4.2",
     "node-cache": "^5.1.2",
     "node-red": "^3.0.2",
-    "portfinder": "^1.0.32",
-    "rxjs": "^7.6.0",
-    "superagent": "^8.0.9",
-    "supertest": "^6.3.3",
-    "wait-on": "^7.0.1"
-  },
-  "devDependencies": {
-    "jest": "^29.4.3",
-    "mongodb": "^5.1.0",
-    "mongodb-memory-server": "^8.11.5"
+    "node-red-contrib-apple-find-me": "^1.1.8",
+    "node-red-contrib-flow-dispatcher": "^0.0.3",
+    "node-red-node-geofence": "^0.3.4",
+    "node-red-node-wemo": "^0.2.3",
+    "nodemon": "^3.0.1",
+    "portfinder": "^1.0.32"
   }
 }

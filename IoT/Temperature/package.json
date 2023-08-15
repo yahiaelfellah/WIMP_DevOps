@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "py app.py"
+    "start": "py app.py",
+    "run:setup":"pip install -r requirements.txt",
+    "run:build":"pip install pyinstaller && pyinstaller --onefile app.py"
   },
   "author": "",
   "license": "ISC"

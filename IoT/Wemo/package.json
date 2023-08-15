@@ -4,7 +4,8 @@
   "description": "This microservice helps to create a extendable WEMO devices service support",
   "scripts": {
     "start": "py app.py",
-    "run:setup":"pip install -r requirements.txt"
+    "run:setup":"pip install -r requirements.txt",
+    "run:build":"pip install pyinstaller && pyinstaller --onefile app.py"
   },
   "author": "Yahia El fellah",
   "license": "ISC"

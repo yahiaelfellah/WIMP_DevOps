@@ -1,5 +1,0 @@
-
-<svg viewport-fill="#bda987">
-  <text id="title" x="50%" y="50%+15" text-anchor="middle"  font-family="System-Regular" fill="black">Tracking...</text>
-  <textarea id="response" width="100%-10" text-length="500" x="5%" y="35%+15" font-family="System-Regular" fill="white" ></textarea>
-</svg>

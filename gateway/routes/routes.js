@@ -29,6 +29,16 @@ exports.routes = [
     },
   },
   {
+    url: `/${API_PREFIX}/admin`,
+    proxy: {
+      target: "http://[::1]:3001/admin",
+      changeOrigin: true,
+      pathRewrite: {
+        [`^/${API_PREFIX}/admin`]: "",
+      },
+    },
+  },
+  {
     url: `/${API_PREFIX}/users`,
     authenticationRequired: true, // if a user needs to be authenticationRequiredenticated for accessing this endpoint
     proxy: {
