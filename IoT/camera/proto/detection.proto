@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package detection;
+
+service PersonDetection {
+    rpc DetectPersons (Empty) returns (PersonCount);
+}
+
+message Empty {}
+
+message PersonCount {
+    int32 detected_persons = 1;
+}
