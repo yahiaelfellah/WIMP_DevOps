@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 
-DB_NAME= 'temperature.db'
+DB_NAME= 'output/temperature.db'
 def create_tables():
     """
     Creates a temperature_status table in the database if it does not exist.

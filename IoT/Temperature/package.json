@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start": "py app.py",
+    "start:grpc": "py app_grpc.py",
     "run:setup":"pip install -r requirements.txt",
     "run:build":"pip install pyinstaller && pyinstaller --onefile app.py"
   },

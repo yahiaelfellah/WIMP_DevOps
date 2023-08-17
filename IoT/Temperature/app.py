@@ -1,10 +1,9 @@
 from flask import Flask, request
 from flask_restful import Api
-from temperature import Temperature
+from module.temperature import Temperature
 from flask_wtf.csrf import CSRFProtect
-from database import create_tables, create_temperature_feed
+from module.database import create_tables, create_temperature_feed
 import time
-import threading
 import signal
 
 

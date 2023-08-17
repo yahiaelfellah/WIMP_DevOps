@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package temperature;
+
+service TemperatureService {
+    rpc GetTemperature(TemperatureRequest) returns (TemperatureResponse);
+}
+
+message TemperatureRequest {
+    string unit = 1;
+}
+
+message TemperatureResponse {
+    string value = 1;
+}
