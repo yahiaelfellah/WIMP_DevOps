@@ -3,9 +3,9 @@
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env' )});
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env' )});
 
-const uri = process.env.mongoDbUrl || 'mongodb://root:example@localhost:27017/test'; // your MongoDB URI
+const uri = process.env.mongoDbUrl || 'mongodb://root:example@localhost:27017/WIMPv2'; // your MongoDB URI
 let client;
 
 async function connect() {

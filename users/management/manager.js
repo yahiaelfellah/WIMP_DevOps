@@ -34,8 +34,9 @@ exports.flow = async () => {
       userList.forEach((user) => {
         if (
           user.isActive &&
-          user.permissionLevel === Surfer &&
-          user.noderedInstance === null
+          (user.permissionLevel === Surfer ||
+            user.permissionLevel === Master) &&
+          !user.noderedInstance
         ) {
           // If user active and there's
           createNodeProcess(
