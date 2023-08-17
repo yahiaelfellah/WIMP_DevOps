@@ -2,3 +2,5 @@ flask
 flask_restful
 flask_wtf
 ouimeaux
+grpcio
+grpcio-tools

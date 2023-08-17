@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_NAME = 'mydatabase.db'
+DB_NAME = 'output/mydatabase.db'
 
 def create_tables():
     """
