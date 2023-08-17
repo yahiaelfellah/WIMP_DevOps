@@ -11,7 +11,8 @@
     "run:build": "yarn build && node ./dist/server.js",
     "run:test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "run:wait-for-mongo": "wait-on mongodb://localhost:27017/test",
-    "run:jest-test": "jest --coverage"
+    "run:jest-test": "jest --coverage",
+    "run:artillery":"artillery run ./__test__/load/scenarios.yaml --output user-report.json -e http"
   },
   "jest": {
     "testEnvironment": "node"
