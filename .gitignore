@@ -3,6 +3,8 @@ coverage
 */package-lock.json
 */*/dist
 */dist
+*/output
+*/*/output
 */build
 */*/build
 .vscode
@@ -18,3 +20,4 @@ node_modules
 *.lock
 */data
 */*/*.db
+*.weights
