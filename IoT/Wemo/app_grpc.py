@@ -2,7 +2,7 @@ import grpc
 from concurrent import futures
 import proto.wemo_pb2 as wemo_pb2
 import proto.wemo_pb2_grpc as wemo_pb2_grpc
-from database import get_wemo_device_by_name, create_wemo_device
+from module.database import get_wemo_device_by_name, create_wemo_device
 import pywemo
 import time
 

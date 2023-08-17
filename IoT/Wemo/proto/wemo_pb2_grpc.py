@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import wemo_pb2 as wemo__pb2
+from proto import wemo_pb2 as proto_dot_wemo__pb2
 
 
 class WemoServiceStub(object):
@@ -16,18 +16,18 @@ class WemoServiceStub(object):
         """
         self.CreateDevice = channel.unary_unary(
                 '/wemo.WemoService/CreateDevice',
-                request_serializer=wemo__pb2.CreateDeviceRequest.SerializeToString,
-                response_deserializer=wemo__pb2.CreateDeviceResponse.FromString,
+                request_serializer=proto_dot_wemo__pb2.CreateDeviceRequest.SerializeToString,
+                response_deserializer=proto_dot_wemo__pb2.CreateDeviceResponse.FromString,
                 )
         self.GetDeviceStatus = channel.unary_unary(
                 '/wemo.WemoService/GetDeviceStatus',
-                request_serializer=wemo__pb2.GetDeviceStatusRequest.SerializeToString,
-                response_deserializer=wemo__pb2.GetDeviceStatusResponse.FromString,
+                request_serializer=proto_dot_wemo__pb2.GetDeviceStatusRequest.SerializeToString,
+                response_deserializer=proto_dot_wemo__pb2.GetDeviceStatusResponse.FromString,
                 )
         self.SetDeviceStatus = channel.unary_unary(
                 '/wemo.WemoService/SetDeviceStatus',
-                request_serializer=wemo__pb2.SetDeviceStatusRequest.SerializeToString,
-                response_deserializer=wemo__pb2.SetDeviceStatusResponse.FromString,
+                request_serializer=proto_dot_wemo__pb2.SetDeviceStatusRequest.SerializeToString,
+                response_deserializer=proto_dot_wemo__pb2.SetDeviceStatusResponse.FromString,
                 )
 
 
@@ -57,18 +57,18 @@ def add_WemoServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'CreateDevice': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateDevice,
-                    request_deserializer=wemo__pb2.CreateDeviceRequest.FromString,
-                    response_serializer=wemo__pb2.CreateDeviceResponse.SerializeToString,
+                    request_deserializer=proto_dot_wemo__pb2.CreateDeviceRequest.FromString,
+                    response_serializer=proto_dot_wemo__pb2.CreateDeviceResponse.SerializeToString,
             ),
             'GetDeviceStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.GetDeviceStatus,
-                    request_deserializer=wemo__pb2.GetDeviceStatusRequest.FromString,
-                    response_serializer=wemo__pb2.GetDeviceStatusResponse.SerializeToString,
+                    request_deserializer=proto_dot_wemo__pb2.GetDeviceStatusRequest.FromString,
+                    response_serializer=proto_dot_wemo__pb2.GetDeviceStatusResponse.SerializeToString,
             ),
             'SetDeviceStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.SetDeviceStatus,
-                    request_deserializer=wemo__pb2.SetDeviceStatusRequest.FromString,
-                    response_serializer=wemo__pb2.SetDeviceStatusResponse.SerializeToString,
+                    request_deserializer=proto_dot_wemo__pb2.SetDeviceStatusRequest.FromString,
+                    response_serializer=proto_dot_wemo__pb2.SetDeviceStatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -92,8 +92,8 @@ class WemoService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/wemo.WemoService/CreateDevice',
-            wemo__pb2.CreateDeviceRequest.SerializeToString,
-            wemo__pb2.CreateDeviceResponse.FromString,
+            proto_dot_wemo__pb2.CreateDeviceRequest.SerializeToString,
+            proto_dot_wemo__pb2.CreateDeviceResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -109,8 +109,8 @@ class WemoService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/wemo.WemoService/GetDeviceStatus',
-            wemo__pb2.GetDeviceStatusRequest.SerializeToString,
-            wemo__pb2.GetDeviceStatusResponse.FromString,
+            proto_dot_wemo__pb2.GetDeviceStatusRequest.SerializeToString,
+            proto_dot_wemo__pb2.GetDeviceStatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -126,7 +126,7 @@ class WemoService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/wemo.WemoService/SetDeviceStatus',
-            wemo__pb2.SetDeviceStatusRequest.SerializeToString,
-            wemo__pb2.SetDeviceStatusResponse.FromString,
+            proto_dot_wemo__pb2.SetDeviceStatusRequest.SerializeToString,
+            proto_dot_wemo__pb2.SetDeviceStatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
