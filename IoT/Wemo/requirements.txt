@@ -4,3 +4,4 @@ flask_wtf
 ouimeaux
 grpcio
 grpcio-tools
+python-dotenv

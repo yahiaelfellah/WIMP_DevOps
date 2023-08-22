@@ -5,7 +5,9 @@ import proto.wemo_pb2_grpc as wemo_pb2_grpc
 from module.database import get_wemo_device_by_name, create_wemo_device
 import pywemo
 import time
+from dotenv import load_dotenv
 
+load_dotenv()
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
