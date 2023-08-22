@@ -5,6 +5,9 @@ import numpy as np
 import proto.detection_pb2 as detection_pb2
 import proto.detection_pb2_grpc as detection_pb2_grpc
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
