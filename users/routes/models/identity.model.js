@@ -23,7 +23,6 @@ const identiySchema = new Schema(
     departement: String,
     isActive : Boolean,
     status: Array,
-    devices: Array,
     noderedInstance: Boolean,
   },
   { timestamps: true }
@@ -63,8 +62,6 @@ exports.findByUserName = (name) => {
 exports.createIdentity = (userData) => {
   // Update default user data 
   userData.isActive = true;
-  userData.noderedInstance = false; 
-  
   const user = new Identity(userData);
   return user.save();
 };
