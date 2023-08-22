@@ -1,0 +1,17 @@
+version: "3"
+services:
+  gateway:
+    build:
+      context: ./gateway
+  users:
+    build:
+      context: ./users
+  flow:
+    build:
+      context: ./flow
+  temperature:
+    build:
+      context: ./IoT/Temperature
+  wemo:
+    build:
+      context: ./IoT/Wemo

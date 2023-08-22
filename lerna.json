@@ -4,8 +4,9 @@
     "gateway",
     "users",
     "flow",
-    "IoT/Temperature",
-    "IoT/Wemo"
+    "iot/temperature",
+    "iot/wemo",
+    "iot/camera"
   ],
   "version": "independent"
 
