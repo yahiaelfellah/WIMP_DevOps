@@ -50,10 +50,17 @@ function startGrpcServer(serverlink) {
             // Add gRPC methods for NodeService
             server.addService(service, {
               NewProcessForClient: async (data, callback) => {
-                const filename = await manager.getFlow(data.request.UserId);
-                const result = await manager.start(filename,data.request.UserId);
-                console.log('returned info' + JSON.stringify(result));
-                callback(null, result);
+                if (!manager.isRunning(data.request.UserId)) {
+                  const filename = await manager.getFlow(data.request.UserId);
+                  const result = await manager.start(
+                    filename,
+                    data.request.UserId
+                  );
+                  console.log("returned info" + JSON.stringify(result));
+                  callback(null, result);
+                } else {
+                  callback(null, "Instance already running");
+                }
               },
             });
             break;
@@ -64,7 +71,6 @@ function startGrpcServer(serverlink) {
       }
     }
   });
-
 
   // Bind and start the gRPC server
   server.bindAsync(
@@ -83,8 +89,7 @@ function startGrpcServer(serverlink) {
   );
 }
 
-
-// Clear Data Folder 
+// Clear Data Folder
 //utils.clearFolder();
 
 // Start the gRPC server with the specified link from environment variable

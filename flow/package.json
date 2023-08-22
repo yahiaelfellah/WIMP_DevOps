@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "build": "webpack --mode development --config webpack.config.js",
+    "run:setup": "npm install",
     "run:build": "yarn build && node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

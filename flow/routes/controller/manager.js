@@ -12,6 +12,12 @@ exports.AddTemplate = async (userId) => {
   return await provider.insert({ userId: userId, data: data });
 };
 
+exports.isRunning = async (userId) => { 
+  const result = await provider.getById(userId);
+  return result.isRunning;
+}
+
+
 exports.getFlow = async (userId) => {
   const filename = `${userId}_user.json`;
 

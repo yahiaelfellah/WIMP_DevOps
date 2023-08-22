@@ -15,6 +15,7 @@ const flowSchema = new Schema({
   port : Number,
   data: String,
   address : String,
+  isRunning: Boolean
 });
 
 flowSchema.virtual("id").get(function () {

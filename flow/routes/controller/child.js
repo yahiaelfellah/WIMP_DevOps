@@ -72,7 +72,7 @@ server.listen(0, async () => {
     `http://${serverAddress.address}:${serverPort}${settings.httpAdminRoot}`
   );
   
-  await provider.update(userId,{port:serverAddress.port, address:serverAddress.address })
+  await provider.update(userId,{port:serverAddress.port, address:serverAddress.address, isRunning : true })
 
   // Start the Node-RED server
   RED.start();
@@ -81,8 +81,9 @@ server.listen(0, async () => {
 // Stop Node-RED process
 function stopNodeRED() {
   RED.stop()
-    .then(() => {
+    .then(async () => {
       console.log("Node-RED process stopped.");
+      await provider.update(userId,{port:null, address:"", isRunning : false })
       server.close(() => {
         console.log("Server closed.");
       });
