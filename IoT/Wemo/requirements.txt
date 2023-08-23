@@ -5,3 +5,4 @@ ouimeaux
 grpcio
 grpcio-tools
 python-dotenv
+pymongo 

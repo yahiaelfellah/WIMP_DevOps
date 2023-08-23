@@ -1,19 +1,26 @@
 from flask import request,jsonify
 from flask_restful import Resource
-from module.database import get_wemo_device_by_name , create_wemo_device
+from module.database import MongoDBModule as db 
 import pywemo
+
+instance = db()
 
 
 class Wemo(Resource):
     def post(self):
         name = request.json['name']
         device_type = request.json['type']
-        create_wemo_device(name, device_type)
-        return jsonify({'message': f'Wemo device {name} ({device_type}) created successfully'})
+        res = instance.find_documents({"name":name})
+        if(len(res) == 0) :  
+            instance.insert_document({ "name":name, "device_type": device_type})
+            return jsonify({'message': f'Wemo device {name} ({device_type}) created successfully'})
+        else : 
+            return jsonify({'message': f'Wemo device {name} ({device_type}) exists'})
+
 
     def get(self):
         devices = pywemo.discover_devices()
-        target =  get_wemo_device_by_name(request.args.get('name') or 'Concordia')
+        target =  instance.find_documents({"name":request.args.get('name') or 'Concordia'})
         if target is None :     
             return {'error': 'Wemo device not found'}
         for device in devices:
@@ -26,6 +33,8 @@ class Wemo(Resource):
         # Check the current state of the WeMo device
         try:
             state = wemo.get_state()
+            instance.update_document({"name":request.args.get('name') or 'Concordia'},{"state":state})
+
         except pywemo.exceptions.ActionException as e:
             return {'error': f'Error getting WeMo device status: {str(e)}'}
 

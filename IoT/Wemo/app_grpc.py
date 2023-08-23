@@ -2,24 +2,44 @@ import grpc
 from concurrent import futures
 import proto.wemo_pb2 as wemo_pb2
 import proto.wemo_pb2_grpc as wemo_pb2_grpc
-from module.database import get_wemo_device_by_name, create_wemo_device
+from module.database import  MongoDBModule as db
 import pywemo
 import time
 from dotenv import load_dotenv
+import os
 
+
+# Load env for the process
 load_dotenv()
+
+# Access environment variables
+grpc_link = os.getenv("GRPC_LINK")
+
+instance = db()
+
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
     def CreateDevice(self, request, context):
-        name = request.name
-        device_type = request.type
-        create_wemo_device(name, device_type)
-        return wemo_pb2.CreateDeviceResponse(message=f'Wemo device {name} ({device_type}) created successfully')
+        document = {
+            "name" : request.name,
+            "device_type" : request.type
+        }
+
+
+        # Check if the data exists 
+        res = db.find_documents(query={"name": request.name})
+        if len(res)== 0:
+            # Add the data in the db 
+            instance.insert_document(document=document)
+        else: 
+            print('Wemo Device already exitst')
+
+        return wemo_pb2.CreateDeviceResponse(message=f'Wemo device {request.name} ({request.type}) created successfully')
 
     def GetDeviceStatus(self, request, context):
         devices = pywemo.discover_devices()
-        target = get_wemo_device_by_name(request.name or 'Concordia')
+        target = instance.find_documents(query={"name": request.name})
         if target is None:
             return wemo_pb2.GetDeviceStatusResponse(error='Wemo device not found')
         
@@ -40,7 +60,7 @@ class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
 
     def SetDeviceStatus(self, request, context):
         devices = pywemo.discover_devices()
-        target = get_wemo_device_by_name(request.name)
+        target = instance.find_documents(query={"name": request.name})
         if target is None:
             return wemo_pb2.SetDeviceStatusResponse(error='Wemo device not found')
 
@@ -64,7 +84,8 @@ class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     wemo_pb2_grpc.add_WemoServiceServicer_to_server(WemoServicer(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(grpc_link)
+    print('running on '+ grpc_link )
     server.start()
     try:
         while True:
