@@ -4,3 +4,4 @@ flask_wtf
 grpcio
 grpcio-tools
 python-dotenv
+pymongo 
