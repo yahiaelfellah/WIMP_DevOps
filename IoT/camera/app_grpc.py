@@ -4,20 +4,29 @@ import cv2
 import numpy as np
 import proto.detection_pb2 as detection_pb2
 import proto.detection_pb2_grpc as detection_pb2_grpc
+from model.database import MongoDBModule as db
 import time
 from dotenv import load_dotenv
-
+import os
+#  Load Env value 
 load_dotenv()
-
+# Access environment variables
+grpc_link = os.getenv("GRPC_LINK")
+# Get db instance
+instance = db()
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 class PersonDetectionServicer(detection_pb2_grpc.PersonDetectionServicer):
     def DetectPersons(self, request, context):
         try:
             # Access the camera (0 for default camera)
-            camera = cv2.VideoCapture(0)
+            camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
             _, frame = camera.read()
 
+            # Save the captured image
+            cv2.imwrite('output/captured_image.jpg', frame)
+            # Add to DB 
+            instance.insert_blob(filepath='output/captured_image.jpg')
             # Prepare image for object detection
             blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
 
