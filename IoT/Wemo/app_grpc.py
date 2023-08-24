@@ -53,6 +53,8 @@ class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
 
         try:
             state = wemo.get_state()
+            instance.update_document(query={"name": request.name},update={"state":state})
+
         except pywemo.exceptions.ActionException as e:
             return wemo_pb2.GetDeviceStatusResponse(error=f'Error getting WeMo device status: {str(e)}')
         
