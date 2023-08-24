@@ -11,7 +11,7 @@ services:
       context: ./flow
   temperature:
     build:
-      context: ./IoT/Temperature
+      context: ./iot/temperature
   wemo:
     build:
-      context: ./IoT/Wemo
+      context: ./iot/wemo
