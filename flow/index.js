@@ -8,6 +8,8 @@ require("dotenv").config({
   path: require("path").resolve(__dirname, "./.env"),
 });
 
+const templatePath = require("path").resolve(__dirname, "./template/flow.json");
+
 // Start the gRPC server with the specified server link
 function startGrpcServer(serverlink) {
   const protoPaths = [
@@ -39,10 +41,33 @@ function startGrpcServer(serverlink) {
           case "FlowService":
             // Add gRPC methods for FlowService
             server.addService(service, {
-              Add: (data, callback) => {
-                console.log(data.request);
-                const result = flowProvider.insert(data.request);
-                callback(null, result);
+              Add: async (data, callback) => {
+                console.log(data.request.data);
+                // Check if the data flow exists otherwise we upload from the template
+                let _data;
+                if (data.request.data === "") {
+                  try {
+                    /// load the flow from the template folder
+                    const res = await utils.readFile(templatePath);
+                    _data = {
+                      ...data.request,
+                      data: res,
+                    };
+                    // add data to the request
+                  } catch (ex) {
+                    console.error(ex);
+                  }
+                }
+                // Check if the user exists in the database already
+                const find = await flowProvider.getById(data.request.userId);
+
+                const result  = find
+                  ? await flowProvider.update(data.request.userId, {
+                      data: _data.data,
+                    })
+                  : flowProvider.insert(_data);
+                  
+                  callback(null, _data)
               },
             });
             break;
@@ -50,17 +75,27 @@ function startGrpcServer(serverlink) {
             // Add gRPC methods for NodeService
             server.addService(service, {
               NewProcessForClient: async (data, callback) => {
-                if (!manager.isRunning(data.request.UserId)) {
-                  const filename = await manager.getFlow(data.request.UserId);
-                  const result = await manager.start(
-                    filename,
-                    data.request.UserId
-                  );
-                  console.log("returned info" + JSON.stringify(result));
-                  callback(null, result);
-                } else {
-                  callback(null, "Instance already running");
+                console.log("get hit here in New ProcessForClient");
+                console.log('request from user ' + data.request.UserId)
+                try{ 
+                  const isRunning = await manager.isRunning(data.request.UserId)
+                  console.log(isRunning);
+                  if (!isRunning) {
+                    const filename = await manager.getFlow(data.request.UserId);
+                    const result = await manager.start(
+                      filename,
+                      data.request.UserId
+                    );
+                    console.log("returned info" + JSON.stringify(result));
+                    callback(null, result);
+                  } else {
+                    callback(null, "Instance already running");
+                  }
+                }catch(e){
+                  console.log(e);
+                  console.log('something went wrong');
                 }
+                
               },
             });
             break;

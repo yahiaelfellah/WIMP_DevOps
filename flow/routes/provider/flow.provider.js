@@ -1,6 +1,7 @@
 const flowModel = require("../models/flow.model");
 
 exports.insert = async (data) => {
+  data.isRunning = false;
   const result = await flowModel.create(data);
   return { id: result._id };
 };
