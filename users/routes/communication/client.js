@@ -70,7 +70,7 @@ function createNodeProcess(userId, callback) {
   });
 }
 
-function insertFlow(userId, data) {
+function insertFlow(userId, data,callback) {
   flowClient.Add({ userId: userId, data: data }, (error, user) => {
     if (error) {
       callback(error, null);

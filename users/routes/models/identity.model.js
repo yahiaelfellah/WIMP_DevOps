@@ -2,13 +2,11 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 
-mongoose.connect(process.env.mongoDbUrl || "mongodb://localhost:27017/WIMPv2", {
+mongoose.connect(process.env.mongoDbUrl || "mongodb://localhost:27017/WIMPv2_users", {
   useUnifiedTopology: true,
-  bufferCommands:true,
   useNewUrlParser: true,
   autoCreate:true,
 });
-mongoose.set('debug', true);
 
 const Schema = mongoose.Schema;
 
@@ -24,6 +22,7 @@ const identiySchema = new Schema(
     isActive : Boolean,
     status: Array,
     noderedInstance: Boolean,
+    flowExists : Boolean
   },
   { timestamps: true }
 );
@@ -56,12 +55,13 @@ exports.findById = (id) => {
 };
 
 exports.findByUserName = (name) => {
-  return Identity.find({ userName: name });
+  return Identity.findOne({ userName: name });
 };
 
 exports.createIdentity = (userData) => {
   // Update default user data 
   userData.isActive = true;
+  userData.flowExists = false; 
   const user = new Identity(userData);
   return user.save();
 };

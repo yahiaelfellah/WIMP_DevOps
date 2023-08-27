@@ -11,9 +11,9 @@ app.listen(PORT ,()=> {
     console.log("user service running on port :" + PORT);
 })
 
-manager.AdminInit(app);
-manager.flow()
-
+manager.AdminInitPromise(app).then(() => { 
+    manager.flow()
+})
 app.on('error',(error) => {
     if (error) {
         console.error(error);
