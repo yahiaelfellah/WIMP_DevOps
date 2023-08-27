@@ -46,7 +46,7 @@ export default {
           pastVal: 0,
           unit: "",
           title: "Total Number of users",
-          icon: "fas fa-grip-lines",
+          icon: "el-icon-delete",
         },
         {
           newVal: 0,

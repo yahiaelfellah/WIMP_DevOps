@@ -1,16 +1,16 @@
 <template>
     <div class="card" ref="card">
       <div class="card-icon" :style="{ backgroundColor: color.bg }">
-        <i :class="card.icon" :style="{ color: color.text }"></i>
+        <i :class="card.icon" :style="{ color: color.text }">i</i>
       </div>
       <div class="card-value">{{ cardValue }}</div>
       <div class="card-title">{{ card.title }}</div>
-      <div class="card-status" :style="{ color: status > 0 ? '#35AF8E' : '#FF2332' }">
+      <!-- <div class="card-status" :style="{ color: status > 0 ? '#35AF8E' : '#FF2332' }">
         <span>
           <i :class="status > 0 ? 'fas fa-angle-up' : 'fas fa-angle-down'"></i>
         </span>
         {{ calculateStatus(card.newVal, card.pastVal) + '%' }}
-      </div>
+      </div> -->
     </div>
   </template>
   

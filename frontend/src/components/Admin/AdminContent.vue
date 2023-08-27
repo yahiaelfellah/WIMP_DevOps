@@ -9,11 +9,11 @@
         <el-icon><User /></el-icon> User Management</el-divider
       >
     </transition>
-    <el-row>
+    <el-row style="justify-content: center;">
       <AdminStaticsVue></AdminStaticsVue>
     </el-row>
 
-    <el-row :gutter="20">
+    <el-row style="justify-content: center;">
       <el-col :span="18">
         <transition name="el-fade-in-linear">
           <el-card v-show="show">
@@ -96,11 +96,12 @@
           </el-card>
         </transition>
       </el-col>
+    </el-row>
+    <!-- <el-row>
       <el-col :span="6">
         <el-card>
           <el-skeleton style="width: 240px" :loading="true" animated>
             <template #template>
-              <!-- <el-skeleton-item variant="image" style="width: 240px; height: 240px" /> -->
               <el-skeleton-item variant="circle" />
 
               <div style="padding: 14px">
@@ -135,46 +136,9 @@
               </el-card>
             </template>
           </el-skeleton>
-
-          <!-- <template #header>
-          <div class="card-header">
-            <p style="font-weight: bold">
-              <el-icon><Cellphone /></el-icon> Devices
-            </p>
-            <el-button type="success" round>New Device</el-button>
-          </div>
-        </template>
-        <el-row
-          style="
-            disply: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <p>Fitbit</p>
-          <el-switch
-            v-model="activateFitbit"
-            active-text="Enable"
-            inactive-text="Disable"
-          />
-        </el-row>
-        <el-row
-          style="
-            disply: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <p>Smart Plug</p>
-          <el-switch
-            v-model="activateSmartPlug"
-            active-text="Enable"
-            inactive-text="Disable"
-          />
-        </el-row> -->
         </el-card>
       </el-col>
-    </el-row>
+    </el-row> -->
 
     <transition name="el-fade-in-linear">
       <el-divider
