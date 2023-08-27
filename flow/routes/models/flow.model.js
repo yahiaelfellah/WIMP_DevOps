@@ -11,11 +11,11 @@ const Schema = mongoose.Schema;
 
 const flowSchema = new Schema({
   userId: String,
-  pid: Number, 
-  port : Number,
+  pid: Number,
+  port: Number,
   data: String,
-  address : String,
-  isRunning: Boolean
+  address: String,
+  isRunning: Boolean,
 });
 
 flowSchema.virtual("id").get(function () {
@@ -38,7 +38,7 @@ exports.findById = (id) => {
   });
 };
 
-exports.create = async (data) => { 
+exports.create = async (data) => {
   const flow = new Flow(data);
   try {
     return await flow.save();
@@ -52,12 +52,12 @@ exports.list = (perPage, page) => {
     Flow.find()
       .limit(perPage)
       .skip(perPage * page)
-      .exec(function (err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
+      .exec()
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 };

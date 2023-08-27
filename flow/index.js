@@ -2,10 +2,22 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const manager = require("./routes/controller/manager");
 const flowProvider = require("./routes/provider/flow.provider");
+
+const flowRouter = require('./routes/route.config');
+
 const utils = require("./utils/fs");
+const express = require("express");
 
 require("dotenv").config({
   path: require("path").resolve(__dirname, "./.env"),
+});
+
+// Create an Express app
+const app = express();
+
+// Define a route for health check or other purposes
+app.get("/health", (req, res) => {
+  res.status(200).send("Server is healthy");
 });
 
 const templatePath = require("path").resolve(__dirname, "./template/flow.json");
@@ -61,13 +73,13 @@ function startGrpcServer(serverlink) {
                 // Check if the user exists in the database already
                 const find = await flowProvider.getById(data.request.userId);
 
-                const result  = find
+                find
                   ? await flowProvider.update(data.request.userId, {
                       data: _data.data,
                     })
                   : flowProvider.insert(_data);
-                  
-                  callback(null, _data)
+
+                callback(null, _data);
               },
             });
             break;
@@ -76,9 +88,11 @@ function startGrpcServer(serverlink) {
             server.addService(service, {
               NewProcessForClient: async (data, callback) => {
                 console.log("get hit here in New ProcessForClient");
-                console.log('request from user ' + data.request.UserId)
-                try{ 
-                  const isRunning = await manager.isRunning(data.request.UserId)
+                console.log("request from user " + data.request.UserId);
+                try {
+                  const isRunning = await manager.isRunning(
+                    data.request.UserId
+                  );
                   console.log(isRunning);
                   if (!isRunning) {
                     const filename = await manager.getFlow(data.request.UserId);
@@ -91,11 +105,10 @@ function startGrpcServer(serverlink) {
                   } else {
                     callback(null, "Instance already running");
                   }
-                }catch(e){
+                } catch (e) {
                   console.log(e);
-                  console.log('something went wrong');
+                  console.log("something went wrong");
                 }
-                
               },
             });
             break;
@@ -127,5 +140,14 @@ function startGrpcServer(serverlink) {
 // Clear Data Folder
 //utils.clearFolder();
 
-// Start the gRPC server with the specified link from environment variable
-startGrpcServer(process.env.GRPC_LINK);
+try {
+  flowRouter.routesConfig(app)
+  // Start the Express server on a specific port
+  app.listen(process.env.EXPRESS_PORT, () => {
+    console.log("Express server is running on " + process.env.EXPRESS_PORT);
+    // Start the gRPC server with the specified link from environment variable
+    startGrpcServer(process.env.GRPC_LINK);
+  });
+} catch {
+  console.log("Express app did not start");
+}
