@@ -9,6 +9,9 @@
         <el-icon><User /></el-icon> User Management</el-divider
       >
     </transition>
+    <el-row>
+      <AdminStaticsVue></AdminStaticsVue>
+    </el-row>
 
     <el-row :gutter="20">
       <el-col :span="18">
@@ -16,7 +19,6 @@
           <el-card v-show="show">
             <template #header>
               <div class="card-header">
-                <!-- <el-button type="success" round>New User</el-button> -->
                 <el-button
                   color="#7325ef"
                   plain
@@ -25,10 +27,6 @@
                   ><el-icon><Plus /></el-icon> Add
                 </el-button>
                 <span class="card-title"> Click on user for more infos</span>
-
-                <!-- <span class="card-title">
-                Click on device card for more infos</span
-              > -->
                 <UserForm
                   :visible="dialogFormVisible"
                   @close="dialogFormVisible = false"
@@ -43,12 +41,28 @@
               highlight-current-row
               @current-change="handleCurrentChange"
             >
-              <el-table-column label="First name" prop="firstName"  style="min-width:300px"/>
+              <el-table-column
+                label="First name"
+                prop="firstName"
+                style="min-width: 300px"
+              />
 
-              <el-table-column label="Last name" prop="lastName" style="min-width:300px" />
-              <el-table-column label="Email" prop="email" style="min-width:300px" />
+              <el-table-column
+                label="Last name"
+                prop="lastName"
+                style="min-width: 300px"
+              />
+              <el-table-column
+                label="Email"
+                prop="email"
+                style="min-width: 300px"
+              />
 
-              <el-table-column label="Permisssion" prop="permissionLevel" style="min-width:300px">
+              <el-table-column
+                label="Permisssion"
+                prop="permissionLevel"
+                style="min-width: 300px"
+              >
                 <template #default="scope">
                   <el-tag class="ml-2" type="danger">{{
                     userRole(scope.row.permissionLevel)
@@ -85,45 +99,44 @@
       <el-col :span="6">
         <el-card>
           <el-skeleton style="width: 240px" :loading="true" animated>
+            <template #template>
+              <!-- <el-skeleton-item variant="image" style="width: 240px; height: 240px" /> -->
+              <el-skeleton-item variant="circle" />
 
-          <template #template>
-        <!-- <el-skeleton-item variant="image" style="width: 240px; height: 240px" /> -->
-        <el-skeleton-item variant="circle" />
+              <div style="padding: 14px">
+                <el-skeleton-item variant="h3" style="width: 50%" />
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-items: space-between;
+                    margin-top: 16px;
+                    height: 16px;
+                  "
+                >
+                  <el-skeleton-item variant="text" style="margin-right: 16px" />
+                  <el-skeleton-item variant="text" style="width: 30%" />
+                </div>
+              </div>
+            </template>
+            <template #default>
+              <el-card :body-style="{ padding: '0px', marginBottom: '1px' }">
+                <img
+                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                  class="image"
+                />
+                <div style="padding: 14px">
+                  <span>Delicious hamburger</span>
+                  <div class="bottom card-header">
+                    <div class="time">{{ currentDate }}</div>
+                    <el-button text class="button">Operation button</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </template>
+          </el-skeleton>
 
-        <div style="padding: 14px">
-          <el-skeleton-item variant="h3" style="width: 50%" />
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-items: space-between;
-              margin-top: 16px;
-              height: 16px;
-            "
-          >
-            <el-skeleton-item variant="text" style="margin-right: 16px" />
-            <el-skeleton-item variant="text" style="width: 30%" />
-          </div>
-        </div>
-      </template>
-      <template #default>
-        <el-card :body-style="{ padding: '0px', marginBottom: '1px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
-          <div style="padding: 14px">
-            <span>Delicious hamburger</span>
-            <div class="bottom card-header">
-              <div class="time">{{ currentDate }}</div>
-              <el-button text class="button">Operation button</el-button>
-            </div>
-          </div>
-        </el-card>
-      </template>
-    </el-skeleton>
-
-        <!-- <template #header>
+          <!-- <template #header>
           <div class="card-header">
             <p style="font-weight: bold">
               <el-icon><Cellphone /></el-icon> Devices
@@ -159,11 +172,11 @@
             inactive-text="Disable"
           />
         </el-row> -->
-      </el-card>
+        </el-card>
       </el-col>
     </el-row>
 
-    <transition name="el-fade-in-linear"> 
+    <transition name="el-fade-in-linear">
       <el-divider
         v-show="show"
         content-position="left"
@@ -175,41 +188,17 @@
     <transition name="el-fade-in-linear">
       <FlowManager />
     </transition>
-    <transition name="el-fade-in-linear">
-      <el-divider
-        v-show="show"
-        content-position="left"
-        style="font-weight: bold"
-      >
-        <el-icon><Cellphone /></el-icon> Device Management</el-divider
-      >
-    </transition>
-    <transition name="el-fade-in-linear">
-      <div v-show="show">
-        <DeviceManager />
-      </div>
-    </transition>
   </div>
-
-  <!-- <el-row :gutter="20">
-    <el-col v-if="activateFitbit" :span="8">
-      <Map />
-    </el-col>
-    <el-col :span="8"> </el-col>
-    <el-col v-if="activateFitbit" :span="8"> </el-col>
-  </el-row> -->
 </template>
 
 <script>
 import { User, Cellphone, Plus } from "@element-plus/icons-vue";
 import { userService } from "../../services/user.service";
-// import { deviceService } from "../../services/device.service";
 import { ElMessage } from "element-plus";
 import UserForm from "./AdminUserForms.vue";
-import DeviceManager from "./AdminDeviceManager.vue";
 import FlowManager from "./AdminFlowManager.vue";
-// import Map from "../MapboxComponent.vue";
 import { Role } from "../../helpers/roles";
+import AdminStaticsVue from './AdminStatics.vue';
 export default {
   data() {
     return {
@@ -226,8 +215,8 @@ export default {
     Cellphone,
     Plus,
     UserForm,
-    DeviceManager,
-    FlowManager
+    FlowManager,
+    AdminStaticsVue
   },
 
   mounted() {
@@ -235,9 +224,7 @@ export default {
     setTimeout(() => {
       this.show = !this.show;
     }, 300);
-    // userService.getAll().then((response) => {
-    //         this.allUsers = response.data
-    //       })
+
   },
   computed: {
     cols() {
