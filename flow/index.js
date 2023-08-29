@@ -3,7 +3,7 @@ const protoLoader = require("@grpc/proto-loader");
 const manager = require("./routes/controller/manager");
 const flowProvider = require("./routes/provider/flow.provider");
 
-const flowRouter = require('./routes/route.config');
+const flowRouter = require("./routes/route.config");
 
 const utils = require("./utils/fs");
 const express = require("express");
@@ -81,6 +81,17 @@ function startGrpcServer(serverlink) {
 
                 callback(null, _data);
               },
+              Delete: async (data, callback) => {
+                // Check if the user exists in the database already
+                const find = await flowProvider.getById(data.request.userId);
+                find
+                  ? await flowProvider.update(data.request.userId, {
+                      isRunning: false,
+                    })
+                  : flowProvider.insert(_data);
+
+                callback(null, _data);
+              },
             });
             break;
           case "NodeService":
@@ -93,7 +104,6 @@ function startGrpcServer(serverlink) {
                   const isRunning = await manager.isRunning(
                     data.request.UserId
                   );
-                  console.log(isRunning);
                   if (!isRunning) {
                     const filename = await manager.getFlow(data.request.UserId);
                     const result = await manager.start(
@@ -103,7 +113,10 @@ function startGrpcServer(serverlink) {
                     console.log("returned info" + JSON.stringify(result));
                     callback(null, result);
                   } else {
-                    callback(null, "Instance already running");
+                    callback(null, {
+                      userId: data.request.UserId,
+                      isRunning: true,
+                    });
                   }
                 } catch (e) {
                   console.log(e);
@@ -141,7 +154,7 @@ function startGrpcServer(serverlink) {
 //utils.clearFolder();
 
 try {
-  flowRouter.routesConfig(app)
+  flowRouter.routesConfig(app);
   // Start the Express server on a specific port
   app.listen(process.env.EXPRESS_PORT, () => {
     console.log("Express server is running on " + process.env.EXPRESS_PORT);

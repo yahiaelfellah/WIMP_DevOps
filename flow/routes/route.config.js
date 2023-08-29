@@ -6,7 +6,7 @@ exports.routesConfig = (app) => {
     app.get('/flow', [
         FlowProvider.listExpress
     ]);
-    app.get('/flow/:flowId', [
+    app.get('/flow/:userId', [
         FlowProvider.getByIdExpress
     ]);
     // app.put('/flow/:flowId', [

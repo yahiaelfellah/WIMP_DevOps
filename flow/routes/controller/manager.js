@@ -15,7 +15,7 @@ exports.AddTemplate = async (userId) => {
 exports.isRunning = async (userId) => { 
   const result = await provider.getById(userId);
   console.log('checking user has instance running or not with ID' + userId); 
-  return result.isRunning;
+  return result ? result.isRunning : false;
 }
 
 

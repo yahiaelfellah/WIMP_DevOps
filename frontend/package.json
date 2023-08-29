@@ -35,6 +35,7 @@
     "vue-friendly-iframe": "^0.20.0",
     "vue-iframes": "^0.0.20",
     "vue-router": "^4.1.6",
+    "vue-status-indicator": "^1.2.1",
     "vue-uuid": "^3.0.0",
     "vue3-status-indicator": "^1.1.1",
     "vuex": "^4.0.2",
