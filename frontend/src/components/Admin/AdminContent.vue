@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-row style="justify-content: center">
+      <AdminStaticsVue></AdminStaticsVue>
+    </el-row>
     <transition name="el-fade-in-linear">
       <el-divider
         v-show="show"
@@ -9,11 +12,9 @@
         <el-icon><User /></el-icon> User Management</el-divider
       >
     </transition>
-    <el-row style="justify-content: center;">
-      <AdminStaticsVue></AdminStaticsVue>
-    </el-row>
 
-    <el-row style="justify-content: center;">
+
+    <el-row style="justify-content: center">
       <el-col :span="18">
         <transition name="el-fade-in-linear">
           <el-card v-show="show">
@@ -38,8 +39,9 @@
               :data="tableData"
               style="width: 100%"
               max-height="250"
-              highlight-current-row
+              @row-click="handleSelection"
               @current-change="handleCurrentChange"
+              highlight-current-row
             >
               <el-table-column
                 label="First name"
@@ -53,12 +55,6 @@
                 style="min-width: 300px"
               />
               <el-table-column
-                label="Email"
-                prop="email"
-                style="min-width: 300px"
-              />
-
-              <el-table-column
                 label="Permisssion"
                 prop="permissionLevel"
                 style="min-width: 300px"
@@ -67,6 +63,9 @@
                   <el-tag class="ml-2" type="danger">{{
                     userRole(scope.row.permissionLevel)
                   }}</el-tag>
+                  <el-tag class="ml-2" type="info" v-if="isMe(scope.row)">
+                    Me
+                  </el-tag>
                 </template>
               </el-table-column>
 
@@ -142,6 +141,7 @@
 
     <transition name="el-fade-in-linear">
       <el-divider
+        v-if="currentRow"
         v-show="show"
         content-position="left"
         style="font-weight: bold"
@@ -150,7 +150,7 @@
       >
     </transition>
     <transition name="el-fade-in-linear">
-      <FlowManager />
+      <FlowManager v-if="currentRow" :userId="currentRow._id" />
     </transition>
   </div>
 </template>
@@ -162,7 +162,8 @@ import { ElMessage } from "element-plus";
 import UserForm from "./AdminUserForms.vue";
 import FlowManager from "./AdminFlowManager.vue";
 import { Role } from "../../helpers/roles";
-import AdminStaticsVue from './AdminStatics.vue';
+import AdminStaticsVue from "./AdminStatics.vue";
+import { AuthenticationService } from "@/services/auth.service";
 export default {
   data() {
     return {
@@ -172,6 +173,7 @@ export default {
       tableData: [],
       dialogFormVisible: false,
       show: false,
+      currentRow: null,
     };
   },
   components: {
@@ -180,7 +182,7 @@ export default {
     Plus,
     UserForm,
     FlowManager,
-    AdminStaticsVue
+    AdminStaticsVue,
   },
 
   mounted() {
@@ -188,16 +190,20 @@ export default {
     setTimeout(() => {
       this.show = !this.show;
     }, 300);
-
   },
   computed: {
     cols() {
       return this.tableData && this.tableData.length !== 0
         ? Object.keys(this.tableData[0])
         : [];
-    },
+    }
+
+
   },
   methods: {
+    isMe(scope) { 
+      return AuthenticationService.currentUserValue._id === scope._id;
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },
@@ -227,8 +233,12 @@ export default {
     userRole(role) {
       return Object.keys(Role).find((key) => Role[key] === role);
     },
+    handleSelection(val) {
+      this.currentRow = val;
+    },
     handleCurrentChange(val) {
       this.currentRow = val;
+      console.log("selected");
       console.log(this.currentRow);
     },
     getData() {
