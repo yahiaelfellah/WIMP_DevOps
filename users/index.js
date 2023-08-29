@@ -9,11 +9,17 @@ const manager = require("./management/manager")
 // listening
 app.listen(PORT ,()=> {
     console.log("user service running on port :" + PORT);
+   
+    setTimeout(() => { 
+        manager.AdminInitPromise(app).then(() => { 
+            manager.flow()
+        })
+
+    },5000);
+
 })
 
-manager.AdminInitPromise(app).then(() => { 
-    manager.flow()
-})
+
 app.on('error',(error) => {
     if (error) {
         console.error(error);

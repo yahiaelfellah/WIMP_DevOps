@@ -5,7 +5,7 @@ const Master = config.permissionLevels.Master;
 const request = require("supertest");
 const {
   createNodeProcess,
-  insertFlow,
+  insertFlow
 } = require("../routes/communication/client");
 
 exports.AdminInit = async (app) => {
@@ -90,8 +90,7 @@ exports.flow = async () => {
   try {
     while (true) {
       // Fetch data from the database
-      console.log("getting all users");
-      const userList = await IdentityModel.list(0, 100);
+      const userList = await IdentityModel.list();
       userList.forEach((user) => {
         if (
           user.isActive &&
@@ -117,6 +116,7 @@ exports.flow = async () => {
                 noderedInstance: res.isRunning,
               });
             } else {
+              console.log(res);
               console.log("something wrong");
             }
           });
@@ -124,9 +124,10 @@ exports.flow = async () => {
           // ;
         }
       });
-      await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 30 seconds
+      await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 30 seconds
     }
   } catch (error) {
     console.error("An error occurred:", error);
   }
 };
+

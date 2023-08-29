@@ -79,8 +79,18 @@ function insertFlow(userId, data,callback) {
     }
   });
 }
+function stopFlow(userId,callback){
+  flowClient.Delete({ UserId: userId }, (error, news) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, news);
+    }
+  });
+}
 
 module.exports = {
   createNodeProcess,
   insertFlow,
+  stopFlow
 };
