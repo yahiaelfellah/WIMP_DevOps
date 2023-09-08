@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "generate-keys": "./security/tls/security_init.sh",
+    "generate-keys": "chmod +x ./security/tls/security_init.sh && ./security/tls/security_init.sh",
     "generate-keys:win": "./security/tls/security_init.bat",
     "build": "webpack --mode development --config webpack.config.js",
     "run:build": "yarn build && node ./dist/server.js",
