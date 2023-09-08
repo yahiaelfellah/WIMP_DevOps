@@ -2,13 +2,17 @@
 
 
 # Specify the relative target folder where you want to copy the keys
-target_folder="../../../gateway/security/tls"
-
+target_folder="../gateway/security/tls"
+orginal_folder="./security/tls"
 
 # Generate public key from private key
 ssh-keygen -t rsa -b 4096 -m PEM -f private.key -E SHA512
 
 echo "Private and public keys generated successfully."
+
+# Move file to the folder 
+mv private.key "$orginal_folder"
+mv private.key.pub "$orginal_folder"
 
 # Copy the keys to the target folder
 cp private.key "$target_folder"
