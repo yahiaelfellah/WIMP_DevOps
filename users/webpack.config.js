@@ -2,9 +2,9 @@ const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const WebpackBar = require('webpackbar');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
+const WebpackBar = require("webpackbar");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -15,7 +15,7 @@ module.exports = {
     publicPath: "/",
     filename: "[name].js",
   },
-  target:  ["node"],
+  target: ["node"],
   node: {
     // Need this when working with express, otherwise the build fails
     __dirname: false, // if you don't put this is, __dirname
@@ -24,12 +24,10 @@ module.exports = {
   externals: [nodeExternals()], // Need this to avoid error when working with Express
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
+      new TerserPlugin({
         parallel: true,
-        sourceMap: true // set to true if you want JS source maps
       }),
-    ]
+    ],
   },
   module: {
     rules: [
@@ -53,10 +51,15 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
-      patterns: [{ from: "security/tls", to: "security/tls" }],
+      patterns: [
+        { from: "security/tls", to: "security/tls" },
+        {
+          from: "routes/communication/proto",
+          to: "proto",
+        },
+      ],
     }),
 
     new WebpackBar(),
-
   ],
 };

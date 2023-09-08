@@ -7,14 +7,19 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
-
 # Copy the rest of the application code to the container
 COPY . .
 
-# Build the application using Webpack (modify the command if needed)
-RUN npm run build
+# Install dependencies
+RUN npm install
+
+# Install webpack globally
+RUN npm install -g webpack webpack-cli
+
+# Build the application using Webpack
+RUN webpack --mode development --config webpack.config.js
+
+
 
 # Specify the command to run when the container starts
-CMD [ "npm", "run", "run:build" ]
+CMD [ "npm", "start" ]

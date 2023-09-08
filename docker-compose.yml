@@ -6,12 +6,28 @@ services:
   users:
     build:
       context: ./users
-  flow:
-    build:
-      context: ./flow
-  temperature:
-    build:
-      context: ./iot/temperature
-  wemo:
-    build:
-      context: ./iot/wemo
+    depends_on:
+      - mongodb
+
+  # flow:
+  #   build:
+  #     context: ./flow
+  #   depends_on:
+  #     - mongodb
+
+  # temperature:
+  #   build:
+  #     context: ./iot/temperature
+  #   depends_on:
+  #     - mongodb
+
+  # wemo:
+  #   build:
+  #     context: ./iot/wemo
+  #   depends_on:
+  #     - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

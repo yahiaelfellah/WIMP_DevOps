@@ -1,6 +1,9 @@
 # Use a base image
 FROM node:16-alpine
 
+# Install Python and build-essential
+RUN apk add --no-cache python3 make g++
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -10,11 +13,16 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code to the container
-COPY . .
+# Install webpack globally
+RUN npm install -g webpack webpack-cli
 
-# Build the application using Webpack (modify the command if needed)
-RUN npm run build
+# Copy the rest of the application code to the container and clean up unnecessary files
+COPY . ./
+# Example: RUN rm -rf some-unnecessary-folder
+RUN ["ls","-l"]
 
-# Specify the command to run when the container starts
-CMD [ "npm", "run", "run:build" ]
+# # Build the application using Webpack
+RUN webpack --mode development --config webpack.config.js
+
+# # Specify the command to run when the container starts
+# CMD [ "npm", "start" ]
