@@ -10,7 +10,7 @@ yarn install
 yarn serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for NODE_ENV
 ```
 yarn build
 ```

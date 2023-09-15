@@ -11,10 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the application code to the container
-COPY . .
-
-# Build the application using Webpack (modify the command if needed)
-RUN npm run build
+COPY . ./
 
 # Specify the command to run when the container starts
-CMD [ "npm", "run", "run:build" ]
+CMD [ "npm", "start" ]

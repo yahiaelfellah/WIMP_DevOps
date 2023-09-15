@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node index.js",
     "build": "webpack --mode development --config webpack.config.js",
-    "run:build": "npm run build && node ./dist/server.js",
+    "run:build": "node ./dist/server.js",
     "run:test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "run:jest-test":"jest --coverage"
   },

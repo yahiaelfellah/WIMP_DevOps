@@ -3,29 +3,33 @@ services:
   gateway:
     build:
       context: ./gateway
+    ports:
+      - "3000:80"  # Expose port 80 in the container to port 8080 on the host
   users:
     build:
       context: ./users
+    ports:
+      - "3001:3001"  # Expose port 3001 in the container to port 3001 on the host
     depends_on:
       - mongodb
 
-  # flow:
-  #   build:
-  #     context: ./flow
-  #   depends_on:
-  #     - mongodb
+  flow:
+    build:
+      context: ./flow
+    depends_on:
+      - mongodb
 
-  # temperature:
-  #   build:
-  #     context: ./iot/temperature
-  #   depends_on:
-  #     - mongodb
+  temperature:
+    build:
+      context: ./iot/temperature
+    depends_on:
+      - mongodb
 
-  # wemo:
-  #   build:
-  #     context: ./iot/wemo
-  #   depends_on:
-  #     - mongodb
+  wemo:
+    build:
+      context: ./iot/wemo
+    depends_on:
+      - mongodb
 
   mongodb:
     image: mongo:latest

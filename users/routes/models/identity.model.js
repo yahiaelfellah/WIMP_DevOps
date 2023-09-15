@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 
-mongoose.connect(process.env.mongoDbUrl || "mongodb://localhost:27017/WIMPv2_users", {
+mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost:27017/WIMPv2_users", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   autoCreate:true,

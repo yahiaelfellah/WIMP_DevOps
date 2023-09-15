@@ -1,0 +1,40 @@
+version: "3"
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.webpack # Specify the Dockerfile for the gateway service
+    ports:
+      - "3000:80" # Expose port 80 in the container to port 8080 on the host
+  users:
+    build:
+      context: ./users
+      dockerfile: Dockerfile.webpack # Specify the Dockerfile for the gateway service
+    ports:
+      - "3001:3001" # Expose port 3001 in the container to port 3001 on the host
+    depends_on:
+      - mongodb
+
+  flow:
+    build:
+      context: ./flow
+      dockerfile: Dockerfile.webpack # Specify the Dockerfile for the gateway service
+    depends_on:
+      - mongodb
+
+  # temperature:
+  #   build:
+  #     context: ./iot/temperature
+  #   depends_on:
+  #     - mongodb
+
+  # wemo:
+  #   build:
+  #     context: ./iot/wemo
+  #   depends_on:
+  #     - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

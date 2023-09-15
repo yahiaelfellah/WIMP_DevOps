@@ -6,7 +6,8 @@ const SecurityRouter = require('./security/routes.config');
 
 const path = require('path');
 
-require('dotenv').config({ path: path.resolve(__dirname, './.env' )});
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env';
+require('dotenv').config({ path: path.resolve(__dirname, envFile )});
 const PORT = process.env.PORT || 3001;
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin',"*" );

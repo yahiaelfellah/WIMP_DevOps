@@ -11,16 +11,16 @@ COPY package*.json ./
 RUN npm install
 
 # # Install webpack globally
-# RUN npm install -g webpack webpack-cli
+RUN npm install -g webpack webpack-cli
 
 # Copy the rest of the application code to the container and clean up unnecessary files
 COPY . ./
 
 # # Build the application using Webpack
-# RUN webpack --mode development --config webpack.config.js
+RUN webpack --mode development --config webpack.config.js
 
-# Expose port 80 (or the port your application listens on)
+# Expose port 3001 (or the port your application listens on)
 EXPOSE 3001
 
 # Specify the command to run when the container starts
-CMD [ "npm", "start" ]
+CMD [ "npm", "run","run:build" ]
