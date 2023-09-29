@@ -8,7 +8,7 @@
       "gateway",
       "users",
       "flow",
-      "departement",
+      "department",
       "iot/temperature",
       "iot/wemo"
     ]

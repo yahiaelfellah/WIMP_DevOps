@@ -4,6 +4,7 @@
     "gateway",
     "users",
     "flow",
+    "department",
     "iot/temperature",
     "iot/wemo",
     "iot/camera"
