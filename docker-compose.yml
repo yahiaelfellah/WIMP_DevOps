@@ -23,8 +23,6 @@ services:
     networks:
       - app-tier # Uncomment to assign the service to the 'app-tier' network
 
-
-
   users:
     build:
       context: ./users
@@ -40,7 +38,6 @@ services:
     networks:
       - app-tier # Uncomment to assign the service to the 'app-tier' network
 
-
   departement:
     build:
       context: ./department
@@ -55,8 +52,6 @@ services:
       - mariadb
     networks:
       - app-tier # Uncomment to assign the service to the 'app-tier' network
-
-
 
   flow:
     build:
@@ -77,35 +72,38 @@ services:
     networks:
       - app-tier
 
-  # wemo:
-  #   build:
-  #     context: ./iot/wemo
-  #   environment:
-  #     - MARIADB_URL= mysql://localhost:3306/WIMPv2_wemo # Use the service name 'mariadb' as the host
-  #     - MARIADB_USER=root # Your MySQL/MariaDB username
-  #     - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
-  #     - DB_NAME= wemo
-  #     - GRPC_PORT= 3009
-  #   ports:
-  #     - "3009:3009"
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - app-tier
+  wemo:
+    build:
+      context: ./iot/wemo
+      dockerfile: Dockerfile
+
+    environment:
+      - MARIADB_HOST=mariadb:3306 # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
+      - MARIADB_DB_NAME=WIMPv2_wemo
+      - MARIADB_TABLE_NAME =wemo
+      - GRPC_PORT=3007
+    ports:
+      - "3007:3007"
+    depends_on:
+      - mariadb
+    networks:
+      - app-tier
 
   # camera:
   #   build:
   #     context: ./IoT/camera
   #   environment:
-  #     - MARIADB_URL= mysql://localhost:3306/WIMPv2_camera # Use the service name 'mariadb' as the host
+  #     - MARIADB_URL= mysql://mariadb:3306/ # Use the service name 'mariadb' as the host
   #     - MARIADB_USER=root # Your MySQL/MariaDB username
   #     - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
-  #     - DB_NAME= camera
+  #     - DB_NAME= WIMPv2_camera
   #     - GRPC_PORT= 3009
   #   ports:
   #     - "3009:3009"
   #   depends_on:
-  #     - mariadb
+  #     - build-essential libssl-dev libffi-dev
   #   networks:
   #     - app-tier
 

@@ -1,0 +1,29 @@
+# Use an official Python runtime as a parent image
+FROM python:3.8-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install system packages and build dependencies
+RUN apk add --no-cache gcc libc-dev
+
+# RUN apk update && apk add --no-cache \
+#     gcc \
+#     libc-dev \
+#     musl-dev \
+#     linux-headers \
+    # Add any other system dependencies here
+# Copy the local requirements file to the container
+COPY requirements.txt .
+
+# Install any needed packages specified in requirements.txt
+RUN pip install -r requirements.txt
+
+# Copy the rest of the application code to the container
+COPY . .
+
+# Build your Cython module
+RUN python setup.py build_ext --inplace
+
+# Specify the command to run your application
+CMD ["python", "app_grpc.py"]

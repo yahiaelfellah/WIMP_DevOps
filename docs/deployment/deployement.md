@@ -225,10 +225,16 @@ You need to create the database 'WIMPv2_users' in your MariaDB server manually. 
 mariadb -u root -p
 ```
 
+> the password for the database is : ``` rootpassword ```
+
 After entering your root password, you can create the database -- i.e  ` WIMPv2_users `:
 
 ```sql
 CREATE DATABASE WIMPv2_users;
+CREATE DATABASE WIMPv2_flows;
+CREATE DATABASE WIMPv2_department;
+CREATE DATABASE WIMPv2_wemo;
+CREATE DATABASE WIMPv2_camera;
 ```
 
 This Markdown file provides a guide for deploying a system on a Raspberry Pi (RPI), including the configuration of the database and checking the existence of database users and their connection permissions. It also includes instructions for granting MariaDB root user access from any IP address for external connections.

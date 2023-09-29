@@ -2,7 +2,7 @@ import grpc
 from concurrent import futures
 import proto.wemo_pb2 as wemo_pb2
 import proto.wemo_pb2_grpc as wemo_pb2_grpc
-from module.database import  MongoDBModule as db
+from module.database import  MariaDBModule as db
 import pywemo
 import time
 from dotenv import load_dotenv
@@ -13,7 +13,7 @@ import os
 load_dotenv()
 
 # Access environment variables
-grpc_link = os.getenv("GRPC_LINK")
+GRPC_PORT = os.getenv("GRPC_PORT")
 
 instance = db()
 
@@ -86,8 +86,8 @@ class WemoServicer(wemo_pb2_grpc.WemoServiceServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     wemo_pb2_grpc.add_WemoServiceServicer_to_server(WemoServicer(), server)
-    server.add_insecure_port(grpc_link)
-    print('running on '+ grpc_link )
+    server.add_insecure_port(f"0.0.0.0:{GRPC_PORT}")
+    print('running on '+ "0.0.0.0:"+GRPC_PORT )
     server.start()
     try:
         while True:
