@@ -14,7 +14,7 @@ RUN npm install
 # RUN npm install -g webpack webpack-cli
 
 # Copy the rest of the application code to the container and clean up unnecessary files
-COPY . ./
+COPY . .
 
 # # Build the application using Webpack
 # RUN webpack --mode development --config webpack.config.js
