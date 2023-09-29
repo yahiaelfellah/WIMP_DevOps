@@ -1,4 +1,4 @@
-const IdentityModel = require("../models/identity.model");
+const IdentityModel = require("../models/identity.model.MariaDB");
 const crypto = require("crypto");
 const { stopFlow,  createNodeProcess } = require("../communication/client");
 

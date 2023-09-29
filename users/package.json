@@ -9,8 +9,6 @@
     "generate-keys:win": "./security/tls/security_init.bat",
     "build": "webpack --mode development --config webpack.config.js",
     "run:build": "node ./dist/server.js",
-    "run:test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "run:wait-for-mongo": "wait-on mongodb://localhost:27017/test",
     "run:jest-test": "jest --coverage",
     "run:artillery": "artillery run ./__test__/load/scenarios.yaml --output user-report.json -e http"
   },
@@ -28,7 +26,11 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^8.3.0",
+    "mariadb": "^3.2.1",
     "mongoose": "^7.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0",
     "superagent": "^8.0.9",
     "supertest": "^6.3.3",
     "wait-on": "^7.0.1"
