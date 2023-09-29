@@ -8,13 +8,14 @@
       "gateway",
       "users",
       "flow",
-      "IoT/Temperature",
-      "IoT/Wemo"
+      "departement",
+      "iot/temperature",
+      "iot/wemo"
     ]
   },
   "engines": {
-    "yarn": "1",
-    "node": "16"
+    "node": ">=16.20.2",
+    "npm": ">=8.19.4"
   },
   "scripts": {
     "start": "lerna exec --no-bail --parallel -- npm start",
