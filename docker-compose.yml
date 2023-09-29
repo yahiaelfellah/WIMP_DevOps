@@ -1,37 +1,123 @@
 version: "3"
+networks:
+  app-tier:
+    driver: bridge
+
 services:
   gateway:
     build:
       context: ./gateway
+      # dockerfile: Dockerfile.webpack
     ports:
-      - "3000:80"  # Expose port 80 in the container to port 8080 on the host
+      - "3000:3000"
+    depends_on:
+      - users
+      - flow
+    environment:
+      - USER_URL=http://users:3001 # Use the service name 'users'
+      - FLOW_URL=http://flow:3002
+      - DEPARTMENT_URL=http://departement:3003
+      - WEMO_URL=http://wemo:3006
+      - CAMERA_URL=http://camera:3007
+    networks:
+      - app-tier # Uncomment to assign the service to the 'app-tier' network
+
+  departement:
+    build:
+      context: ./departement
+    environment:
+      - MARIADB_URL= mysql://mariadb:3306/WIMPv2_users # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mariadb
+    networks:
+      - app-tier # Uncomment to assign the service to the 'app-tier' network
+
   users:
     build:
       context: ./users
+      # dockerfile: Dockerfile.webpack
+    environment:
+      - MARIADB_URL= mysql://mariadb:3306/WIMPv2_users # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
     ports:
-      - "3001:3001"  # Expose port 3001 in the container to port 3001 on the host
+      - "3001:3001"
     depends_on:
-      - mongodb
+      - mariadb
+    networks:
+      - app-tier # Uncomment to assign the service to the 'app-tier' network
 
   flow:
     build:
       context: ./flow
+    environment:
+      - MARIADB_URL= mysql://mariadb:3306/WIMPv2_flows # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
+      - EXPRESS_PORT=3002
+      - GRPC_PORT=50051
+    ports:
+      - "3002:3002"
+      - "50051:50051"
     depends_on:
-      - mongodb
-
-  temperature:
-    build:
-      context: ./iot/temperature
-    depends_on:
-      - mongodb
+      - mariadb
+    networks:
+      - app-tier
 
   wemo:
     build:
-      context: ./iot/wemo
-    depends_on:
-      - mongodb
-
-  mongodb:
-    image: mongo:latest
+      context: ./IoT/Wemo
+    environment:
+      - MARIADB_URL= mysql://localhost:3306/WIMPv2_wemo # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
+      - DB_NAME= wemo
+      - GRPC_PORT= 3009
     ports:
-      - "27017:27017"
+      - "3009:3009"
+    depends_on:
+      - mariadb
+    networks:
+      - app-tier
+
+  camera:
+    build:
+      context: ./IoT/camera
+    environment:
+      - MARIADB_URL= mysql://localhost:3306/WIMPv2_camera # Use the service name 'mariadb' as the host
+      - MARIADB_USER=root # Your MySQL/MariaDB username
+      - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
+      - DB_NAME= camera
+      - GRPC_PORT= 3009
+    ports:
+      - "3009:3009"
+    depends_on:
+      - mariadb
+    networks:
+      - app-tier
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - gateway
+  #   environment:
+  #     - VUE_APP_API_URL=http://192.168.0.253:3000/api/v1
+  #   networks:
+  #     - app-tier  # Uncomment to assign the service to the 'app-tier' network
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpassword # Set your root password
+    ports:
+      - "3306:3306" # Map container port 3306 to host port 3306
+    networks:
+      - app-tier
