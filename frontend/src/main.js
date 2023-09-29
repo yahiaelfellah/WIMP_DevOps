@@ -4,8 +4,6 @@ import router from "./router";
 import ElementPlus from "element-plus";
 import VueIframe from 'vue-iframes'
 import VueFriendlyIframe from 'vue-friendly-iframe';
-import VueMapbox from "vue-mapbox";
-import Mapbox from "mapbox-gl";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import VWave from 'v-wave'
@@ -18,7 +16,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 vueApp.use(VWave);
 vueApp.use(VueIframe);
 vueApp.use(VueFriendlyIframe);
-vueApp.use(VueMapbox, { mapboxgl: Mapbox });
 vueApp.use(StatusIndicator);
 
 
