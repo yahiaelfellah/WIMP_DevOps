@@ -1,22 +1,13 @@
 {
-  "name": "users",
+  "name": "departement",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "Yahia El Fellah",
   "scripts": {
     "start": "node index.js",
-    "generate-keys": "./security/tls/security_init.sh",
-    "generate-keys:win": "./security/tls/security_init.bat",
-    "build": "webpack --mode development --config webpack.config.js",
-    "run:build": "node ./dist/server.js",
-    "run:jest-test": "jest --coverage",
-    "run:artillery": "artillery run ./__test__/load/scenarios.yaml --output user-report.json -e http"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "author": "Yahia El Fellah",
-  "license": "ISC",
   "dependencies": {
     "@grpc/grpc-js": "^1.9.3",
     "axios": "^1.4.0",
@@ -57,5 +48,6 @@
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.2"
-  }
+  },
+  "license": "ISC"
 }
