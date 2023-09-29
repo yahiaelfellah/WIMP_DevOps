@@ -21,16 +21,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: 'ts-loader',
-      },
-      {
-        test: /\.ts?$/,
-        exclude: /node_modules/,
-        use: 'ts-loader',
-      },
-      {
         // Transpiles ES6-8 into ES5
         test: /\.js$/,
         exclude: /node_modules/,
