@@ -1,4 +1,4 @@
-const flowModel = require("../models/flow.model");
+const flowModel = require("../models/flow.model.MariaDB");
 
 exports.insert = async (data) => {
   data.isRunning = false;

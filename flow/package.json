@@ -37,6 +37,7 @@
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.2",
     "winston": "^3.10.0"
+    
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.0",
@@ -54,6 +55,10 @@
     "node-red-node-geofence": "^0.3.4",
     "node-red-node-wemo": "^0.2.3",
     "nodemon": "^3.0.1",
-    "portfinder": "^1.0.32"
+    "portfinder": "^1.0.32",
+    "mariadb": "^3.2.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0"
   }
 }

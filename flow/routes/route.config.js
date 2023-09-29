@@ -9,11 +9,5 @@ exports.routesConfig = (app) => {
     app.get('/flow/:userId', [
         FlowProvider.getByIdExpress
     ]);
-    // app.put('/flow/:flowId', [
-    //     FlowProvider.putById
-    // ]);
 
-    // app.delete('/flow/:flowId', [
-    //     FlowProvider.removeById
-    // ]);
 };
