@@ -3,10 +3,10 @@ const FlowProvider = require("./provider/flow.provider");
 
 exports.routesConfig = (app) => {
 
-    app.get('/flow', [
+    app.get('/flows', [
         FlowProvider.listExpress
     ]);
-    app.get('/flow/:userId', [
+    app.get('/flows/:userId', [
         FlowProvider.getByIdExpress
     ]);
 

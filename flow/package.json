@@ -37,28 +37,27 @@
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.2",
     "winston": "^3.10.0"
-    
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.0",
     "@grpc/proto-loader": "^0.7.8",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "mariadb": "^3.2.1",
     "mongoose": "^7.4.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.1",
     "node-cache": "^5.1.2",
     "node-red": "^3.0.2",
     "node-red-contrib-apple-find-me": "^1.1.8",
-    "node-red-contrib-firebase": "^1.1.1",
+    "node-red-contrib-firebase": "^0.0.2",
     "node-red-contrib-firebase-realtime-database": "^1.0.9",
     "node-red-contrib-flow-dispatcher": "^0.0.3",
     "node-red-contrib-grpc": "^1.2.5",
     "node-red-node-geofence": "^0.3.4",
-    "node-red-node-wemo": "^0.2.3",
+    "node-red-node-wemo": "^0.0.3",
     "nodemon": "^3.0.1",
     "portfinder": "^1.0.32",
-    "mariadb": "^3.2.1",
-    "morgan": "^1.10.0",
-    "mysql2": "^3.6.1",
     "sequelize": "^6.33.0"
   }
 }

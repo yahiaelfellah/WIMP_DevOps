@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const databaseUrl = process.env.MARIADB_URL || 'mysql://localhost:3306/WIMPv2_flows';
+require("dotenv").config({ path: require('path').resolve(__dirname, "../../.env") });
+
+const databaseUrl = process.env.MARIADB_URL || 'mysql://localhost:3306/WIMPv2_users';
 
 const sequelize = new Sequelize(databaseUrl, {
   dialect: 'mariadb',
@@ -20,44 +22,57 @@ const Flow = sequelize.define('flows', {
   timestamps: false, // Disable timestamps if not needed
 });
 
-// Test the database connection
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Database connection has been established successfully.');
-  })
-  .catch((error) => {
-    console.error('Unable to connect to the database:', error);
-  });
-
-
   async function createDatabase() {
     try {
-      await sequelize.sync({ alter: true }); // Use force: true to drop and recreate the database
-      console.log('Database has been created.');
+      // Create the database if it doesn't exist
+      await sequelize.query(`CREATE DATABASE IF NOT EXISTS ${sequelize.config.database}`);
+      return true;
     } catch (error) {
-      console.error('Error creating the database:', error);
+      throw error;
+    }
+  }
+  
+  async function syncModel() {
+    try {
+      // Sync the model with the database, altering it if needed
+      await sequelize.sync({ alter: true });
+      console.log("The table for the User model was just (re)created!");
+    } catch (error) {
+      console.error("Error syncing the User model:", error);
+    }
+  }
+  async function checkIfDatabaseExists() {
+    try {
+      // Check if the database exists by trying to authenticate with it
+      await sequelize.authenticate();
+      console.log('Table exits i guess');
+      return true;
+    } catch (error) {
+      if (error.name === 'SequelizeConnectionError') {
+        return false;
+      }
+      throw error;
     }
   }
   
   
-  
-  
-  // Call createDatabase before defining and syncing the model
-  createDatabase()
-    .then(() => {
-      
-      // Sync the model with the database
-      Flow.sync({ force: true })
-        .then(() => {
-          console.log("The table for the Flow model was just (re)created!");
-        })
-        .catch((err) => {
-          console.error("Error syncing the Flow model:", err);
-        });
+  // Check if the database exists
+  checkIfDatabaseExists()
+    .then((exists) => {
+      if (exists) {
+        // Database already exists, proceed to sync the model
+        syncModel();
+      } else {
+        // Database doesn't exist, create it and then sync the model
+        createDatabase()
+          .then(() => syncModel())
+          .catch((error) => {
+            console.error('Error creating the database:', error);
+          });
+      }
     })
     .catch((error) => {
-      console.error('Error creating the database:', error);
+      console.error('Error checking if the database exists:', error);
     });
   
   

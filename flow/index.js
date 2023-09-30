@@ -155,11 +155,13 @@ function startGrpcServer(serverlink) {
 
 try {
   flowRouter.routesConfig(app);
-  // Start the Express server on a specific port
+
+  //Start the Express server on a specific port
   app.listen(process.env.EXPRESS_PORT, () => {
     console.log("Express server is running on " + process.env.EXPRESS_PORT);
     // Start the gRPC server with the specified link from environment variable
-    startGrpcServer(process.env.GRPC_LINK);
+    startGrpcServer("0.0.0.0:"+ process.env.GRPC_PORT);
+
   });
 } catch {
   console.log("Express app did not start");
