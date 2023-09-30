@@ -1,4 +1,4 @@
-const IdentityModel = require('../../routes/models/identity.model');
+const IdentityModel = require('../../routes/models/identity.model.MariaDB');
 const crypto = require('crypto');
 const uuid= require('uuid');
 const validityTime = require('../env.config.js').jwtValidityTimeInSeconds;
