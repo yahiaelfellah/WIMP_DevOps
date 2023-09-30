@@ -1,20 +1,22 @@
-# Use a base image
-FROM node:16-alpine
+# Use an official Python runtime as a parent image
+FROM python:3.8-alpine
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Install dependencies
-RUN npm install
+# Install build essentials and system libraries (needed for some Python packages)
+# RUN apk add --no-cache build-essential libssl-dev libffi-dev
 
-# Copy the rest of the application code to the container
-COPY . .
+# RUN apt-get update && apt-get install -y build-essential libssl-dev libffi-dev
 
-# Build the application using Webpack (modify the command if needed)
-RUN npm run build
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Specify the command to run when the container starts
-CMD [ "npm", "run", "run:build" ]
+# Make port 3006 available to the world outside this container
+EXPOSE 3006
+
+# Run app_grpc.py when the container launches
+CMD ["python", "app_grpc.py"]

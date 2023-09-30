@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import cv2
 import numpy as np
 from dotenv import load_dotenv
-from model.database import MongoDBModule as db
+from model.database import MariaDBModule as db
 import os
 #  Load Env value 
 load_dotenv()
@@ -32,7 +32,7 @@ def detect_persons():
         blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
 
         # Add to DB 
-        instance.insert_blob(blob=blob)
+        instance.insert_image(camera_id="",image_data=blob)
 
         # Set input and get output layers
         net.setInput(blob)

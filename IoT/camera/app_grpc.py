@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import proto.detection_pb2 as detection_pb2
 import proto.detection_pb2_grpc as detection_pb2_grpc
-from model.database import MongoDBModule as db
+from model.database import MariaDBModule as db
 import time
 from dotenv import load_dotenv
 import os
@@ -26,7 +26,7 @@ class PersonDetectionServicer(detection_pb2_grpc.PersonDetectionServicer):
             # Save the captured image
             cv2.imwrite('output/captured_image.jpg', frame)
             # Add to DB 
-            instance.insert_blob(filepath='output/captured_image.jpg')
+            instance.insert_image("1",image_data=='output/captured_image.jpg')
             # Prepare image for object detection
             blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
 
