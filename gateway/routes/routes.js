@@ -55,24 +55,24 @@ exports.routes = [
     },
   },
   {
-    url: `/${API_PREFIX}/departement`,
+    url: `/${API_PREFIX}/departments`,
     authenticationRequired: true,
     proxy: {
-      target: `${DEPARTEMENT_URL}/departement`,
+      target: `${DEPARTEMENT_URL}/departments`,
       changeOrigin: true,
       pathRewrite: {
-        [`^/${API_PREFIX}/departement`]: "",
+        [`^/${API_PREFIX}/departments`]: "",
       },
     },
   },
   {
-    url: `/${API_PREFIX}/flow`,
+    url: `/${API_PREFIX}/flows`,
     authenticationRequired: true,
     proxy: {
-      target: `${FLOW_URL}/flow`,
+      target: `${FLOW_URL}/flows`,
       changeOrigin: true,
       pathRewrite: {
-        [`^/${API_PREFIX}/flow`]: "",
+        [`^/${API_PREFIX}/flows`]: "",
       },
     },
   },
@@ -90,6 +90,7 @@ exports.routes = [
   {
     url: `/${API_PREFIX}/camera`,
     authenticationRequired: true,
+    isgRPC : false,
     proxy: {
       target: `${CAMERA_URL}/camera`,
       changeOrigin: true,
@@ -101,12 +102,10 @@ exports.routes = [
   {
     url: `/${API_PREFIX}/wemo`,
     authenticationRequired: true,
+    isgRPC : false,
     proxy: {
-      target: `${WEMO_URL}/wemo`,
-      changeOrigin: true,
-      pathRewrite: {
-        [`^/${API_PREFIX}/wemo`]: "",
-      },
+      target: `${WEMO_URL}`,
+      port: 3007
     },
   },
   // Add more routes as needed
