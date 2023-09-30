@@ -3,7 +3,7 @@ import glob
 import time
 from flask_restful import Resource
 from flask import request, jsonify
-from module.database import MongoDBModule as db
+from module.database import MariaDBModule as db
 import datetime
 
 instance = db()
