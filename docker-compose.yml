@@ -95,13 +95,14 @@ services:
   #   build:
   #     context: ./IoT/camera
   #   environment:
-  #     - MARIADB_URL= mysql://mariadb:3306/ # Use the service name 'mariadb' as the host
+  #     - MARIADB_HOST=mariadb:3306 # Use the service name 'mariadb' as the host
   #     - MARIADB_USER=root # Your MySQL/MariaDB username
   #     - MARIADB_PASSWORD=rootpassword # Your MySQL/MariaDB password
-  #     - DB_NAME= WIMPv2_camera
-  #     - GRPC_PORT= 3009
+  #     - MARIADB_DB_NAME=WIMPv2_camera
+  #     - MARIADB_TABLE_NAME=camera
+  #     - GRPC_PORT=3007
   #   ports:
-  #     - "3009:3009"
+  #     - "3006:3006"
   #   depends_on:
   #     - build-essential libssl-dev libffi-dev
   #   networks:
