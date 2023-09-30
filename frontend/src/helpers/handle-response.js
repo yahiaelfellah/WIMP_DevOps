@@ -3,7 +3,7 @@ import { AuthenticationService } from '../services/auth.service';
 
 export function handleErrorResponse(error) {   
 
-                if ([401,403].indexOf(error.response.status) !== -1) {
+                if (error && error.response &&  [401,403].indexOf(error.response?.status) !== -1) {
                         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                         AuthenticationService.logout();
                         this.$router.push("/")

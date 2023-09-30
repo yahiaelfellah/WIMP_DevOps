@@ -15,15 +15,15 @@ axios.interceptors.response.use(response => {
 
 
 function getAll() {
-    return axios.get(`${API_URL}/departement`, requestOptions.header())
+    return axios.get(`${API_URL}/departments`, requestOptions.header())
 }
 
 function getById(id) {
-    return axios.get(`${API_URL}/departement/${id}`, requestOptions.header())
+    return axios.get(`${API_URL}/departments/${id}`, requestOptions.header())
 }
 
 function create(body) { 
-    return axios.post(`${API_URL}/departement`,body,requestOptions.header());
+    return axios.post(`${API_URL}/departments`,body,requestOptions.header());
 }
 
 
