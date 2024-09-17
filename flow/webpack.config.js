@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -25,10 +25,8 @@ module.exports = {
   externals: [nodeExternals()], // Need this to avoid error when working with Express
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
+      new TerserPlugin({
         parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
       }),
     ],
   },

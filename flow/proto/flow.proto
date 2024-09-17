@@ -8,6 +8,7 @@ message Flow {
 service FlowService {
     rpc Add (Flow) returns (Flow) {}
     rpc Get (Id) returns (Flow) {}
+    rpc Delete(Id) returns (Flow) {}
 }
 
 message Id {

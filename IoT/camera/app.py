@@ -1,6 +1,16 @@
 from flask import Flask, request, jsonify
 import cv2
 import numpy as np
+from dotenv import load_dotenv
+from model.database import MariaDBModule as db
+import os
+#  Load Env value 
+load_dotenv()
+# Access environment variables
+grpc_link = os.getenv("GRPC_LINK")
+# Get db instance
+instance = db()
+
 
 app = Flask(__name__)
 
@@ -12,7 +22,7 @@ classes = open('model/coco.names').read().strip().split('\n')
 def detect_persons():
     try:
          # Access the camera (0 for default camera)
-        camera = cv2.VideoCapture(0)
+        camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
         _, frame = camera.read()
 
         # Save the captured image
@@ -20,6 +30,9 @@ def detect_persons():
 
         # Prepare image for object detection
         blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+
+        # Add to DB 
+        instance.insert_image(camera_id="",image_data=blob)
 
         # Set input and get output layers
         net.setInput(blob)

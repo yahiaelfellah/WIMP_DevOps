@@ -4,22 +4,29 @@
       <el-card>
         <template #header>
           <div class="card-header">
-            <span class="card-title">You can upload the flow in here</span>
+            <span class="card-title">Instance Information</span>
           </div>
         </template>
 
-        <VJsoneditor
-          v-model="json"
-          mode="text"
-          :mainMenuBar="false"
-          @error="onError"
-          style="height: '440px';"
-        />
-        <div id="footer">
-          <el-button color="#7325ef" plain round @click="SaveAndDeploy">
-            Save and Deploy
-          </el-button>
-        </div>
+          <el-row style="justify-content: center;">
+            <div class="card-icon" style='{ backgroundColor: "#e67e2266" }'>
+                <i>i</i>
+            </div>
+          </el-row>
+            <div style="padding: 6px">
+            <span class="card-title"> Status: </span>
+            <el-tag class="ml-2" type="success">{{isRunning}}</el-tag>
+            </div>
+            <div style="padding: 6px">
+            <span class="card-title">Port :</span>
+            <span class="card-title" style="font-weight: bold;">{{port }}</span>
+          </div>
+          <div style="padding: 6px">
+            <span class="card-title">Address :</span>
+            <span class="card-title" style="font-weight: bold;">{{address }}</span>
+
+          </div>
+
       </el-card>
     </el-col>
     <el-col :span="16">
@@ -73,43 +80,64 @@
                 </div>
               </template>
             </el-popover>
-            <!-- <el-button circle>
-              <el-icon><Notification /></el-icon>
-            </el-button> -->
           </div>
         </template>
         <iframe
-          src="http://127.0.0.1:8000/red/#flow"
+          :src=instanceSrc
           class="myIfr"
           frameborder="0"
+          style="width: 1000px;height: 800px;" 
         ></iframe>
       </el-card>
     </el-col>
   </el-row>
 </template>
 <script>
-import VJsoneditor from 'json-editor-vue';
-// import { Notification } from "@element-plus/icons-vue";
+import { flowService } from '@/services/flow.service';
 export default {
-  components: {
-    VJsoneditor,
-    // Notification,
-  },
   data() {
     return {
       json: {
         hello: "vue",
       },
+      flow : null,
       options: {
         mode: "text",
         search: false,
         mainMenuBar: false,
-        height : "430px"
-
+        height: "430px",
       },
     };
   },
+  props: ['userId'],
+   mounted() {
+    flowService.getById(this.userId).then((res) => { 
+      this.flow = res.data;
+    })
 
+    },
+  computed: { 
+    isRunning(){ 
+      return this.flow?.isRunning ? "Running" : "Stopped"  
+    },
+    port(){
+      return this.flow?.port ;
+    },
+    address(){
+      return this.flow?.address == "::" ? 'localhost' : this.flow?.address;
+    },
+    instanceSrc(){
+      return `http://${this.address}:${this.port}/red`;
+    }
+  },  
+  watch: {
+    userId(newUserId) {
+      // Respond to changes in userId here
+      flowService.getById(newUserId).then((res) => {
+        this.flow = res.data;
+      });
+    },
+  },
   methods: {
     onError() {
       console.log("error");
@@ -131,8 +159,17 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.jse-main.svelte-sxaskb{
-  min-height : 440px !important
+.jse-main.svelte-sxaskb {
+  min-height: 440px !important;
+}
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e67e2266;
 }
 </style>
 

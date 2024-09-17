@@ -1,8 +1,7 @@
 from flask import Flask, request
 from flask_restful import Api
-from module.temperature import Temperature
+from module.temperature import Temperature, Read
 from flask_wtf.csrf import CSRFProtect
-from module.database import create_tables, create_temperature_feed
 import time
 import signal
 
@@ -11,8 +10,22 @@ app = Flask(__name__)
 csrf = CSRFProtect()
 csrf.init_app(app)  # Enable CSRF protection for the Flask app
 api = Api(app)
-api.add_resource(Temperature, '/temperature')  # Add a RESTful resource for temperature
+# Add a RESTful resource for temperature
+api.add_resource(Temperature, '/temperature')
 running = True  # A global flag to signal the temperature loop to keep running
+
+
+def generate_temperature():
+    import random
+    # Generate a random temperature in Celsius between -10°C and 40°C
+    min_temperature_celsius = -10
+    max_temperature_celsius = 40
+    random_temperature_celsius = round(random.uniform(
+        min_temperature_celsius, max_temperature_celsius), 2)
+    # Convert Celsius to Fahrenheit
+    random_temperature_fahrenheit = round(
+        (random_temperature_celsius * 9/5) + 32, 2)
+    return (random_temperature_celsius, random_temperature_fahrenheit)
 
 
 def temperature_loop():
@@ -28,19 +41,27 @@ def temperature_loop():
     global running
     # Loop indefinitely until the running flag is set to False
     while running:
-        # Read temperature in Celsius
-        temp_c = 5  # TODO: Replace with code to read temperature from a sensor in Celsius
-        print(f"Temperature in Celsius: {temp_c}°C")
 
-        # Read temperature in Fahrenheit
-        temp_f = 15  # TODO: Replace with code to read temperature from a sensor in Fahrenheit
-        print(f"Temperature in Fahrenheit: {temp_f}°F")
+        try:
+            temp_c = Read.read_temp_c()
+            print(f"Temperature in Celsius: {temp_c}°C")
 
-        #store the temperature readings in the database
-        create_temperature_feed(temp_c, temp_f)
+            temp_f = Read.read_temp_f()
+            print(f"Temperature in Fahrenheit: {temp_f}°F")
 
-        # Delay for some time before reading again
-        time.sleep(1)
+        except:
+            print("it seems we cant access to the sensor")
+            (temp_c, temp_f) = generate_temperature()
+            # Read temperature in Celsius
+            temp_c = 5  # TODO: Replace with code to read temperature from a sensor in Celsius
+            print(f"Temperature in Celsius: {temp_c}°C")
+
+            # Read temperature in Fahrenheit
+            temp_f = 15  # TODO: Replace with code to read temperature from a sensor in Fahrenheit
+            print(f"Temperature in Fahrenheit: {temp_f}°F")
+
+            # Delay for some time before reading again
+        time.sleep(10)
 
 
 def signal_handler(signum, frame):
@@ -73,9 +94,6 @@ def signal_handler(signum, frame):
 
 
 if __name__ == '__main__':
-    # Create the database tables if they don't exist
-    create_tables()
-
     # Register signal handler for SIGINT (Ctrl+C)
     signal.signal(signal.SIGINT, signal_handler)
 

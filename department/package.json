@@ -1,0 +1,53 @@
+{
+  "name": "departement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Yahia El Fellah",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.3",
+    "axios": "^1.4.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^8.3.0",
+    "mariadb": "^3.2.1",
+    "mongoose": "^7.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0",
+    "superagent": "^8.0.9",
+    "supertest": "^6.3.3",
+    "wait-on": "^7.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^29.5.0",
+    "babel-loader": "^9.1.2",
+    "babel-watch": "^7.8.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "express": "^4.18.2",
+    "jest": "^29.4.3",
+    "node-loader": "^2.0.0",
+    "nodemon": "^3.0.1",
+    "superagent": "^8.0.9",
+    "supertest": "^6.3.3",
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2"
+  },
+  "license": "ISC"
+}

@@ -1,4 +1,10 @@
-flask
-flask_restful
-flask_wtf
+# flask
+# flask_restful
 ouimeaux
+grpcio
+grpcio-tools
+python-dotenv
+Cython
+mysql-connector-python
+pywemo
+sqlalchemy

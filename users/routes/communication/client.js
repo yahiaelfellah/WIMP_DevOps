@@ -70,7 +70,7 @@ function createNodeProcess(userId, callback) {
   });
 }
 
-function insertFlow(userId, data) {
+function insertFlow(userId, data,callback) {
   flowClient.Add({ userId: userId, data: data }, (error, user) => {
     if (error) {
       callback(error, null);
@@ -79,8 +79,18 @@ function insertFlow(userId, data) {
     }
   });
 }
+function stopFlow(userId,callback){
+  flowClient.Delete({ UserId: userId }, (error, news) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, news);
+    }
+  });
+}
 
 module.exports = {
   createNodeProcess,
   insertFlow,
+  stopFlow
 };

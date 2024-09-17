@@ -1,4 +1,4 @@
-const IdentityModel = require('../../routes/models/identity.model');
+const IdentityModel = require('../../routes/models/identity.model.MariaDB');
 const crypto = require('crypto');
 const uuid= require('uuid');
 const validityTime = require('../env.config.js').jwtValidityTimeInSeconds;
@@ -26,10 +26,10 @@ exports.hasAuthValidFields = (req, res, next) => {
 exports.isPasswordAndUserMatch = (req, res, next) => {
     IdentityModel.findByUserName(req.body.username)
         .then((user)=>{
-             if(!user[0]){
+             if(!user){
                 res.status(404).send("user not found,please check the database or the admin");
             }else{
-                let passwordFields = user[0].password.split('$');
+                let passwordFields = user.password.split('$');
                 let salt = passwordFields[0];
                 let hash = crypto.scryptSync(req.body.password,salt,64,{N:16384}).toString("base64");
                 if (hash === passwordFields[1]) {
@@ -37,10 +37,10 @@ exports.isPasswordAndUserMatch = (req, res, next) => {
                     req.body = {
                         iss: 'urn:yahia.xyz',
                         aud: 'urn:'+(req.get('origin')?req.get('origin'):"yahia.xyz"),
-                        sub: user[0].email,
-                        name: user[0].firstName + ' ' + user[0].lastName,
-                        userId: user[0]._id,
-                        roles: user[0].permissionLevel,
+                        sub: user.email,
+                        name: user.firstName + ' ' + user.lastName,
+                        userId: user._id,
+                        roles: user.permissionLevel,
                         jti: uuid.v4(),
                         iat: now,
                         exp: now+validityTime

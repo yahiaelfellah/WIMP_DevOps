@@ -4,6 +4,12 @@ from concurrent import futures
 import proto.temperature_pb2 as temperature_pb2
 import proto.temperature_pb2_grpc as temperature_pb2_grpc
 from module.temperature import Read
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+
+grpc_link = os.getenv("GRPC_LINK")
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 

@@ -3,10 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const IdentityRouter = require('./routes/routes.config');
 const SecurityRouter = require('./security/routes.config');
+const { setupLogging } = require("./utils/logging");
 
 const path = require('path');
 
-require('dotenv').config({ path: path.resolve(__dirname, './.env' )});
+require('dotenv').config({ path: path.resolve(__dirname, '.env' )});
 const PORT = process.env.PORT || 3001;
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin',"*" );
@@ -21,12 +22,16 @@ app.use(function (req, res, next) {
       }
     });
 app.use(bodyParser.json());
+
+// Setting up the logging
+setupLogging(app);
+
 // Route definition
 IdentityRouter.routesConfig(app);
 IdentityRouter.routesAdminConfig(app);
 SecurityRouter.routesConfig(app);
-app.get("/", (_req, res) => {
-    res.status(200).send("is runnning");
+app.get("/healthcheck", (_req, res) => {
+    res.status(200).send("user service is runnning");
   });
 
 module.exports = app;

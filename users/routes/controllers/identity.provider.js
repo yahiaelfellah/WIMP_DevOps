@@ -1,5 +1,6 @@
-const IdentityModel = require("../models/identity.model");
+const IdentityModel = require("../models/identity.model.MariaDB");
 const crypto = require("crypto");
+const { stopFlow,  createNodeProcess } = require("../communication/client");
 
 exports.insert = async (req, res) => {
   let salt = crypto.randomBytes(16).toString("base64");
@@ -27,13 +28,11 @@ exports.list = (req, res) => {
   });
 };
 
-
 exports.getById = (req, res) => {
   IdentityModel.findById(req.params.userId).then((result) => {
     res.status(200).send(result);
   });
 };
-
 
 exports.putById = (req, res) => {
   if (req.body.password) {
@@ -49,7 +48,13 @@ exports.putById = (req, res) => {
 };
 
 exports.removeById = (req, res) => {
-  IdentityModel.removeById(req.params.userId).then((result) => {
-    res.status(204).send({});
-  });
+  IdentityModel.removeById(req.params.userId)
+    .then((result) => {
+      res.status(204).send({});
+    })
+    .finally(() => {
+      stopFlow(req.params.userId, (_, res) => {
+        console.log(res);
+      });
+    });
 };

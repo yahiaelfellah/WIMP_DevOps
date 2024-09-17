@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { requestOptions } from './auth.header';
 import { handleErrorResponse } from '../helpers/handle-response';
-const API_URL = process.env.VUE_APP_API_URL;
+const API_URL = 'http://localhost:3000/api/v1';
 
-export const departementService = {
+export const flowService = {
     getAll,
     getById,
     create
@@ -15,34 +15,13 @@ axios.interceptors.response.use(response => {
 
 
 function getAll() {
-    return axios.get(`${API_URL}/departement`, requestOptions.header())
+    return axios.get(`${API_URL}/flow`, requestOptions.header())
 }
 
 function getById(id) {
-    return axios.get(`${API_URL}/departement/${id}`, requestOptions.header())
+    return axios.get(`${API_URL}/flow/${id}`, requestOptions.header())
 }
 
 function create(body) { 
-    return axios.post(`${API_URL}/departement`,body,requestOptions.header());
+    return axios.post(`${API_URL}/flow`,body,requestOptions.header());
 }
-
-
-// class UserService {
-//   getAllUsers() {
-//     return axios.get(API_URL + 'all');
-//   }
-
-//   getUserBoard() {
-//     return axios.get(API_URL + 'user', { headers: authHeader() });
-//   }
-
-//   getModeratorBoard() {
-//     return axios.get(API_URL + 'mod', { headers: authHeader() });
-//   }
-
-//   getAdminBoard() {
-//     return axios.get(API_URL + 'admin', { headers: authHeader() });
-//   }
-// }
-
-// export default new UserService();

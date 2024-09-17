@@ -4,3 +4,5 @@ flask_wtf
 opencv-python
 grpcio
 grpcio-tools
+python-dotenv
+mysql

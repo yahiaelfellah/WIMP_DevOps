@@ -42,7 +42,7 @@ setupProxies(app, routes);
 // Setting up the bodyParser for the specific endpoint
 setupBodyParser(app, routes);
 
-app.get("/", (_req, res) => {
-  res.status(200).send("is runnning");
+app.get("/healthcheck", (_req, res) => {
+  res.status(200).send(" Gateway is runnning");
 });
 module.exports = app;

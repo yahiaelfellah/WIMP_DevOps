@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WebpackBar = require("webpackbar");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   entry: {
     server: "./index.js",
@@ -49,8 +51,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: "security/tls", to: "security/tls" }],
     }),
+    new WebpackBar()
   ],
 };

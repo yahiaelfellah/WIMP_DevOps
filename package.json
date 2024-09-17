@@ -8,14 +8,20 @@
       "gateway",
       "users",
       "flow",
-      "IoT/Temperature",
-      "IoT/Wemo"
+      "department",
+      "iot/temperature",
+      "iot/wemo"
     ]
+  },
+  "engines": {
+    "node": ">=16.20.2",
+    "npm": ">=8.19.4"
   },
   "scripts": {
     "start": "lerna exec --no-bail --parallel -- npm start",
     "build": "lerna exec --no-bail --parallel -- npm run run:build",
-    "clean":"chmod +x ./clean-project.sh && ./clean-project.sh",
+    "run:install": "lerna exec --no-bail --parallel -- npm run run:setup",
+    "clean": "chmod +x ./clean-project.sh && ./clean-project.sh",
     "kill-ports": "kill-port --port 3000,3001,8000,3006",
     "run:dev": "npm run kill-ports && npm start",
     "run:build": "npm run kill-ports && npm run build ",

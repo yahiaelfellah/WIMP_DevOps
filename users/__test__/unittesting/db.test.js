@@ -1,64 +1,62 @@
 // db.test.js
 
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const { MongoClient } = require('mongodb');
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env' )});
+const mysql = require('mysql2/promise');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-const uri = process.env.mongoDbUrl || 'mongodb://root:example@localhost:27017/WIMPv2'; // your MongoDB URI
-let client;
+const dbConfig = {
+  host: process.env.MARIADB_HOST || 'localhost',
+  user: process.env.MARIADB_USER || 'root',
+  password: process.env.MARIADB_PASSWORD || 'password',
+  database: process.env.MARIADB_DATABASE || 'WIMPv2',
+  port: process.env.MARIADB_PORT || 3306,
+};
+
+let connection;
 
 async function connect() {
-  if (!client) {
-    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
+  if (!connection) {
+    connection = await mysql.createConnection(dbConfig);
   }
-  return client.db();
+  return connection;
 }
 
-async function clearAllCollections() {
-  if(client){
-    const db = await client.db();
-    const collectionNames = await db.listCollections().toArray();
-    for (const { name } of collectionNames) {
-      await db.collection(name).deleteMany({});
+async function clearAllTables() {
+  if (connection) {
+    const db = await connect();
+    const [rows] = await db.query('SHOW TABLES');
+    for (const row of rows) {
+      await db.query(`DELETE FROM ${row.Tables_in_WIMPv2}`);
     }
   }
-
 }
 
 async function close() {
-  if (client) {
-    await client.close();
-    client = null;
+  if (connection) {
+    await connection.end();
+    connection = null;
   }
 }
 
-let mongoServer;
-
 beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-  process.env.mongoDbUrl = mongoServer.getUri();
-  await clearAllCollections ();
-
+  await clearAllTables();
 });
 
 afterAll(async () => {
   await close();
-  await mongoServer.stop();
 });
 
-describe('MongoDB connection', () => {
-  test('connects to MongoDB', async () => {
+describe('MariaDB connection', () => {
+  test('connects to MariaDB', async () => {
     const db = await connect();
-    await clearAllCollections();
-    const collections = await db.listCollections().toArray();
-    expect(Array.isArray(collections)).toBe(true);
+    await clearAllTables();
+    const [rows] = await db.query('SHOW TABLES');
+    expect(Array.isArray(rows)).toBe(true);
   });
 });
 
 module.exports = {
   connect,
-  clearAllCollections,
+  clearAllTables,
   close,
 };

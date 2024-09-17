@@ -12,8 +12,16 @@ exports.AddTemplate = async (userId) => {
   return await provider.insert({ userId: userId, data: data });
 };
 
+exports.isRunning = async (userId) => { 
+  const result = await provider.getById(userId);
+  console.log('checking user has instance running or not with ID' + userId); 
+  return result ? result.isRunning : false;
+}
+
+
 exports.getFlow = async (userId) => {
   const filename = `${userId}_user.json`;
+  console.log('getting the flow for user ID ' +userId )
 
   try {
     // Create flow folder if not exists

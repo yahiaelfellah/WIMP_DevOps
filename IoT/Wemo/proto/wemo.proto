@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package wemo;
+
+service WemoService {
+    rpc CreateDevice(CreateDeviceRequest) returns (CreateDeviceResponse);
+    rpc GetDeviceStatus(GetDeviceStatusRequest) returns (GetDeviceStatusResponse);
+    rpc SetDeviceStatus(SetDeviceStatusRequest) returns (SetDeviceStatusResponse);
+}
+
+message CreateDeviceRequest {
+    string name = 1;
+    string type = 2;
+}
+
+message CreateDeviceResponse {
+    string message = 1;
+}
+
+message GetDeviceStatusRequest {
+    string name = 1;
+}
+
+message GetDeviceStatusResponse {
+    string status = 1;
+}
+
+message SetDeviceStatusRequest {
+    string name = 1;
+    string action = 2;
+}
+
+message SetDeviceStatusResponse {
+    string status = 1;
+    string error = 2;
+}

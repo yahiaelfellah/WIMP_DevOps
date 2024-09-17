@@ -38,7 +38,7 @@ function activityCallback(data) {
   });
 }
 
-simpleActivity.initialize("seconds", activityCallback);
+//simpleActivity.initialize("seconds", activityCallback);
 
 /* -------- HRM ------------- */
 function hrmCallback(data) {
